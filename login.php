@@ -12,7 +12,7 @@
     <table>
     <tr><td>Username:</td> <td><input type="text" value=""></td></tr>
     <tr><td>Password:</td> <td><input type="password" value=""></td></tr>
-    <tr><td></td><td><input style="float: right;" type="submit" value="bob"></td></tr>
+    <tr><td></td><td><input style="float: right;" type="submit" value="Login"></td></tr>
     </table>
 </form>
 <p>You are currently not signed in <a href="login.php">login</a> Not yet a member? <a href="signup.php">signup</a> </p>

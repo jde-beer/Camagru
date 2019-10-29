@@ -15,11 +15,11 @@ try {
    $conn = new PDO($DB_SERVER_DB, $DB_USER, $DB_PASSWORD);
    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    $query = "CREATE TABLE users (
-       id INT AUTO_INCREMENT PRIMARY KEY,
-       username VARCHAR(20) NOT NULL,
-       password VARCHAR(255) NOT NULL,
-       email VARCHAR(100) NOT NULL,
-       verified VARCHAR(1) NOT NULL DEFAULT 'N')";
+       `id` INT AUTO_INCREMENT PRIMARY KEY,
+       `email` VARCHAR(100) NOT NULL,
+       `username` VARCHAR(20) NOT NULL,
+       `password` VARCHAR(255) NOT NULL,
+       `join_date` VARCHAR(100) NOT NULL)";
        $conn->exec($query);
        echo "<p style='padding: 20px; color:green;'> Table: users, created\n</p>";
    }
