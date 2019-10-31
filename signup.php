@@ -16,12 +16,14 @@ if(isset($_POST['Signup']))
 
     $form_errors = array_merge($form_errors, check_email($_POST));
 
+    $email = $_POST['email'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    if(checkDuplicateUsername($username))
+
     if(empty($form_errors))
     {
-        $email = $_POST['email'];
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         try
         {
@@ -32,24 +34,24 @@ if(isset($_POST['Signup']))
 
             if($statement->rowCount() == 1)
             { 
-                $result = "<p style='padding:20px; boarder: 1px solid gray; color: green;'> Registration Successful</p>";
+                $result = flashMessage("Registration Successful", "Pass");
             }
         }
         catch (PDOException $ex)
         {
-            $result = "<p style='padding:20px; boarder: 1px solid gray; color: red;'>An error occurred: ".$ex->getMessage()."</p>";
+            $result = flashMessage("An error occurred:".$ex->getMessage());
         }
     }
     else
     {
         if(count($form_errors) == 1)
         {
-            $result = "<p style='color: red;'> There was 1 error in the form<br>";
+            $result = flashMessage("There was 1 error in the form<br>");
         }
 
         else
         {  
-            $result = "<p style='color: red'> There were " .count($form_errors). "errors in the form<br>";
+            $result = flashMessage("There were " .count($form_errors). "error s in the form<br>");
     
         }
     }

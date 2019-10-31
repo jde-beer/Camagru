@@ -8,7 +8,9 @@ if(isset($_POST['loginBtn']))
     $form_errors = array();
 
     $required_field = array('username', 'password');
+
     $form_errors = array_merge($form_errors, check_empty_fields($required_field));
+
     if(empty($form_errors))
     {
         $user = $_POST['username'];
@@ -28,11 +30,11 @@ if(isset($_POST['loginBtn']))
             {
                 $_SESSION['id'] = $id;
                 $_SESSION['username'] = $username;
-                header("location: index.php");
+                redirectTo('index');
             }
             else
             {
-                $result = "<p style='padding: 20px; color: red; border: 1 px solid gray;'> Invalid username or password";
+                $result = flashMessage("Invalid username or password");
             }
         }
     }
@@ -40,11 +42,11 @@ if(isset($_POST['loginBtn']))
     {
         if(count($form_errors) == 1)
         {
-            $result = "<p style='color: red;'>There was one error in the form </p>";
+            $result = flashMessage("There was one error in the form");
         }
         else
         {
-            $result = "<p style='color : red;'> There were " .count($form_errors). " errors in the form </p>";
+            $result = flashmessage("There were " .count($form_errors). " errors in the form");
         }
     }
 }
@@ -66,9 +68,10 @@ if(isset($_POST['loginBtn']))
     <table>
     <tr><td>Username:</td> <td><input type="text" value="" name="username"></td></tr>
     <tr><td>Password:</td> <td><input type="password" value="" name="password"></td></tr>
-    <tr><td></td><td><input style="float: right;" type="submit" name="loginBtn" value="Login"></td></tr>
+    <tr><td><a href="passwordresetpage.php">Reset password</a></td><td><input style="float: right;" type="submit" name="loginBtn" value="Login"></td></tr>
     </table>
 </form>
+
 <p>Not yet a member? <a href="signup.php">signup</a> </p>
 </body>
 </html>

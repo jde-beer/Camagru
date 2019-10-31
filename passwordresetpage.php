@@ -85,7 +85,7 @@ if(isset($_POST['passwordResetBtn']))
 
 <h3>Password Reset Form</h3>
 
-<?PHP if(!isset($result)) echo $result; ?>
+<?PHP if(isset($result)) echo $result; ?>
 <?php if(!empty($form_errors)) echo show_errors($form_errors); ?>
 <form method="post" action="">
     <table>

@@ -58,4 +58,36 @@ function show_errors($form_errors_array)
     $errors .= "</ul></p>";
     return $errors;
 }
+
+function flashMessage($message, $passorfail = "Fail")
+{
+    if($passorfail === "Pass")
+    {
+        $data = "<p style='padding:20px; border: 1px solid gray; color green;'>{$message}</p>";
+    }
+    else
+    {
+        $data = "<p style='padding:20px; border: 1px solid gray; color red;'>{$message}</p>";
+    }
+    return $data;
+}
+
+function redirectTo($page)
+{
+    header("Location:{$page}.php");
+}
+
+function checkDuplicateUsername($value, $DB_NAME)
+{
+    try
+    {
+        $sqlQuery = "SELECT username FROM users WHERE username=:username";
+        $statement = $DB_NAME->prepare($sqlQuery);
+        $statement->execute(array('username'));
+    }
+    catch (PDOException $ex)
+    {
+
+    }
+}
 ?>
