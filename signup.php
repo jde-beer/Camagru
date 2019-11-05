@@ -6,7 +6,7 @@ if(isset($_POST['Signup']))
 {
     $form_errors = array();
 
-    $required_fields = array('email', 'username', 'password');
+    $required_fields = array('email', 'username', 'password', 'confirm_password');
 
     $form_errors = array_merge($form_errors, check_empty_fields($required_fields));
    
@@ -19,23 +19,39 @@ if(isset($_POST['Signup']))
     $email = $_POST['email'];
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+    $url = $_SERVER['HTTP_HOST'].str_replace("signup.php", "", $_SERVER['REQUEST_URI']);
 
-    if(checkDuplicateUsername($username))
+    if(checkDuplicateUsername("users", "email", $email, $DB_NAME))
+    {
+        $result = flashMessage("Email in use already.");
+    }
+    if(checkDuplicateUsername("users", "username", $username, $DB_NAME))
+    {
+        $result = flashMessage("Username in use already.");
+    }
+
+    if($password != $confirm_password)
+    {
+        $result = flashMessage("Password Does Not Match");
+    }
 
     if(empty($form_errors))
     {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $token = bin2hex(random_bytes(50)); 
         try
         {
-            $sqlInsert = "INSERT INTO users (`email`, `username`, `password`, `join_date`) VALUES (:email, :username, :password, now())";
+            $sqlInsert = "INSERT INTO users (`email`, `username`, `password`, `token`, `join_date`) VALUES (:email, :username, :password, :token, now())";
 
             $statement = $DB_NAME->prepare($sqlInsert);
-            $statement->execute(array(':email' => $email, ':username' => $username, ':password' => $hashed_password));
+            $statement->execute(array(':email' => $email, ':username' => $username, ':password' => $hashed_password, 'token' => $token));
 
             if($statement->rowCount() == 1)
             { 
                 $result = flashMessage("Registration Successful", "Pass");
             }
+            sendVerificationEmail ($email, $token, $url);
         }
         catch (PDOException $ex)
         {
@@ -75,6 +91,7 @@ if(isset($_POST['Signup']))
     <tr><td>Email:</td> <td><input type="Email" value="" name="email" required oninvalid="this.setCustomValidity('Enter Valid Email address here')" oninput="this.setCustomValidity('')" ></td></tr>
     <tr><td>Username:</td> <td><input type="text" value="" name="username" required oninvalid="this.setCustomValidity('Username should be atleast 6 characters long')" oninput="this.setCustomValidity('')" ></td></tr>
     <tr><td>Password:</td> <td><input type="password" value="" name="password"required oninvalid="this.setCustomValidity('Password must contain one uppercase letter and special character')" oninput="this.setCustomValidity('')" ></td></tr>
+    <tr><td>Confirm Password:</td> <td><input type="password" value="" name="confirm_password"required></td></tr>
     <tr><td></td><td><input style="float: right;" type="submit" name="Signup" value="Signup"></td></tr>
     </table>
 </form>

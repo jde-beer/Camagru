@@ -77,17 +77,111 @@ function redirectTo($page)
     header("Location:{$page}.php");
 }
 
-function checkDuplicateUsername($value, $DB_NAME)
+function checkDuplicateUsername($table, $column_name, $value, $DB_NAME)
 {
     try
     {
-        $sqlQuery = "SELECT username FROM users WHERE username=:username";
+        $sqlQuery = "SELECT username FROM ".$table." WHERE ".$column_name."=:".$column_name;
         $statement = $DB_NAME->prepare($sqlQuery);
-        $statement->execute(array('username'));
+        $statement->execute(array(":".$column_name => $value));
+
+        if($row = $statement->fetch())
+            return true;
+        return false;
     }
     catch (PDOException $ex)
     {
 
     }
 }
+
+function sendVerificationEmail ($email, $token, $url) {
+    
+    $subject = "[Meme(Me)] - Email Verification";
+
+    $headers = 'MIME-Version: 1.0'."\r\n";
+    $headers .= 'Content-type: text/html; charset=UTF-8'."\r\n";
+    $headers .= 'From: <camagru@no-reply.co.za>'."\r\n";
+
+    $message = '
+    <html>
+        <head>
+            <title>'.$subject.'</title>
+        </head>
+        <body>
+            Thanks for registering to Meme(Me)
+            To finalize the registration process please click the link below <br>
+            <a href="http://'.$url.'/verify.php?token='.$token.'">Verify my email</a>
+            If this was not you, please ignore this email and the address will not be used.
+        </body>
+    </html>
+    ';
+
+    $retval = mail($email, $subject, $message, $headers);
+    
+    if ($retval == true) {
+        echo "Message sent successfully...";
+    } else {
+        echo "Message could not be sent...";
+    }
+}
+
+function sendForgotPasswordEmail ($email, $password) {
+    
+    $subject = "[Meme(Me)] - Password Reset";
+
+    $headers = 'MIME-Version: 1.0'."\r\n";
+    $headers .= 'Content-type: text/html; charset=UTF-8'."\r\n";
+    $headers .= 'From: <camagru@no-reply.co.za>'."\r\n";
+
+    $message = '
+    <html>
+        <head>
+            <title>'.$subject.'</title>
+        </head>
+        <body>
+            This is your password, You can reset once logged in.<br>
+            '.$password.'
+        </body>
+    </html>
+    ';
+
+    $retval = mail($email, $subject, $message, $headers);
+    
+    if ($retval == true) {
+        echo "Message sent successfully...";
+    } else {
+        echo "Message could not be sent...";
+    }
+}
+
+// function verify($token)
+// {
+//     try
+//     {
+//         if (isset($_GET['token']) && !empty($_GET['token'])) 
+// {
+//     $token = $_GET['token'];
+
+//     $sqlQuery = $DB_NAME->prepare("SELECT id FROM users WHERE token='".$token."'");
+//     $sqlQuery->execute();
+//     $row = $sqlQuery->fetch();
+
+//     if ($row > 0) 
+//     {
+//         $query = $DB_NAME->prepare("UPDATE users SET verified='Y' WHERE id = :id");
+//         $query->execute(array('id' => $row['id']));
+//         $result = flashMessage("Your acount has been verified, you can now login", "Pass");
+//     } 
+//     else 
+//     {
+//         $result = flashMessage("The url is either invalid or you already verified your account.");
+//     }
+// }
+//     }
+//     catch (PDOException $ex)
+//     {
+
+//     }
+// }
 ?>

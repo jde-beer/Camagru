@@ -19,7 +19,9 @@ try {
        `email` VARCHAR(100) NOT NULL UNIQUE,
        `username` VARCHAR(20) NOT NULL UNIQUE,
        `password` VARCHAR(255) NOT NULL,
-       `join_date` VARCHAR(100) NOT NULL)";
+       `verified` VARCHAR(100) NOT NULL DEFAULT 'N',
+       `token` VARCHAR(100) NOT NULL,
+       `join_date` TIMESTAMP)";
        $conn->exec($query);
        echo "<p style='padding: 20px; color:green;'> Table: users, created\n</p>";
    }

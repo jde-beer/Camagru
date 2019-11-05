@@ -25,12 +25,21 @@ if(isset($_POST['loginBtn']))
             $id = $row['id'];
             $hashed_password = $row['password'];
             $username = $row['username'];
+            $verified = $row['verified'];
 
             if(password_verify($password, $hashed_password))
             {
-                $_SESSION['id'] = $id;
-                $_SESSION['username'] = $username;
-                redirectTo('index');
+                if($verified == 'Y')
+                {
+                    $_SESSION['id'] = $id;
+                    $_SESSION['username'] = $username;
+                    redirectTo('index');
+                }
+                else
+                {
+                    $result = flashMessage("Your account needs to be verified first");
+                }
+                
             }
             else
             {
@@ -68,7 +77,7 @@ if(isset($_POST['loginBtn']))
     <table>
     <tr><td>Username:</td> <td><input type="text" value="" name="username"></td></tr>
     <tr><td>Password:</td> <td><input type="password" value="" name="password"></td></tr>
-    <tr><td><a href="passwordresetpage.php">Reset password</a></td><td><input style="float: right;" type="submit" name="loginBtn" value="Login"></td></tr>
+    <tr><td><a href="forgotpassword.php">Forgot password</a></td><td><input style="float: right;" type="submit" name="loginBtn" value="Login"></td></tr>
     </table>
 </form>
 

@@ -89,7 +89,7 @@ if(isset($_POST['passwordResetBtn']))
 <?php if(!empty($form_errors)) echo show_errors($form_errors); ?>
 <form method="post" action="">
     <table>
-        <tr><td>Email:</td> <td><input type="text" value="" name="new_password"></td></tr>
+        <tr><td>Email:</td> <td><input type="Email" value="" name="email" required oninvalid="this.setCustomValidity('Enter Valid Email address here')" oninput="this.setCustomValidity('')" ></td></tr>
         <tr><td>New Password:</td> <td><input type="password" value="" name="new_password"></td></tr>
         <tr><td>Comfirm Password:</td> <td><input type="password" value="" name="confirm_password"></td></tr>
         <tr><td></td><td><input style="float: right;" type="submit" name="passwordResetBtn" value="reset Password"></td></tr>
