@@ -26,6 +26,7 @@ if(isset($_POST['loginBtn']))
             $hashed_password = $row['password'];
             $username = $row['username'];
             $verified = $row['verified'];
+            $preference = $row['preference'];
 
             if(password_verify($password, $hashed_password))
             {
@@ -33,6 +34,7 @@ if(isset($_POST['loginBtn']))
                 {
                     $_SESSION['id'] = $id;
                     $_SESSION['username'] = $username;
+                    $_SESSION['preference'] = $preference;
                     redirectTo('index');
                 }
                 else

@@ -15,7 +15,7 @@ include_once 'config/session.php';
 <p>You are currently not signed in <a href="login.php">login</a> Not yet a member? <a href="signup.php">signup</a> </p>
 <?PHP else: ?>
 <p>You are logged in as <?php if(isset($_SESSION['username'])) echo $_SESSION['username']; ?> <a href="logout.php">logout</a> </p>
-<p>Would you like to reset your password <a href="passwordresetpage.php">Reset password</a></p>
+<p>Would you like to reset your password <a href="update.php">update profile</a></p>
 <?php endif ?>
 </body>
 </html>

@@ -14,6 +14,21 @@ function check_empty_fields($required_fields_array)
     return $form_errors;
 }
 
+function check_username($username)
+{
+    $form_errors = array();
+
+    if(preg_match('/\\s/',$username))
+    {
+        $form_errors[] = "username must not contain spaces.";
+    }
+    if(!preg_match('/^(?=.*\d)[a-zA-Z\d]{5,20}$/', $username))
+    {
+        $form_errors[] = "username must be between 5-20 characters long <br> and contain at least one number.";   
+    }
+    return $form_errors;
+}
+
 function check_min_length($field_to_check_length)
 {
     $form_errors = array();
@@ -28,6 +43,19 @@ function check_min_length($field_to_check_length)
     return $form_errors;
 }
 
+function check_pass($password){
+    $form_errors = array();
+
+    if(preg_match('/\\s/',$password))
+    {
+        $form_errors[] = "password must not contain spaces.";
+    }
+    if(!preg_match('/^(?=.*\d)[a-zA-Z\d]{5,20}$/', $password))
+    {
+        $form_errors[] = "password must be between 5-20 characters long <br> and contain at least one number.";   
+    }
+    return $form_errors;
+}
 function check_email($data)
 {
     $form_errors = array();
@@ -140,7 +168,7 @@ function sendForgotPasswordEmail ($email, $password) {
             <title>'.$subject.'</title>
         </head>
         <body>
-            This is your password, You can reset once logged in.<br>
+            This is your new password, You can reset once logged in.<br>
             '.$password.'
         </body>
     </html>
