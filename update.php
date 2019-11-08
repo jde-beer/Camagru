@@ -4,7 +4,7 @@ include_once 'config/utilities.php';
 include_once 'config/session.php';
 
 if(!isset($_SESSION['username'])){
-    redirecto("index");
+    redirectTo("index");
 }
 else{
     $id = $_SESSION['id'];
