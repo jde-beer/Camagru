@@ -74,6 +74,17 @@ function check_email($data)
     }
     return $form_errors;
 }
+function show_success($form_success_array)
+{
+    $success = "<p><ul style='color:green;list-style-type:circle;'>";
+    
+    foreach($form_success_array as $the_success)
+    {
+        $success .="<li>{$the_success}<li>";
+    }
+    $success .= "</ul></p>";
+    return $success;
+}
 
 function show_errors($form_errors_array)
 {
