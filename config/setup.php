@@ -26,7 +26,20 @@ try {
        $conn->exec($query);
        echo "<p style='padding: 20px; color:green;'> Table: users, created\n</p>";
    }
-   catch (PDOException $err) {
+   catch (PDOException $err) 
+   {
        echo "<p style='padding:20px; color:red;'> Table: users, not created\n".$err->getMessage()."</p>";
-}
+   }
+try {
+   $conn = new PDO($DB_SERVER_DB, $DB_USER, $DB_PASSWORD);
+   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+   $query = "CREATE TABLE  profileimg(
+      `id` INT AUTO_INCREMENT PRIMARY KEY,
+      `userid` INT(11) NOT NULL,
+      `status` INT(11) NOT NULL
+   )";}
+   catch (PDOException $err) 
+   {
+      echo "<p style='padding:20px; color:red;'> Table: users, not created\n".$err->getMessage()."</p>";
+   }
 ?>

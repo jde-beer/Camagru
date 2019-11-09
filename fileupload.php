@@ -56,6 +56,29 @@ if(isset($_POST['upload']))
     <title>Imagine uploader</title>
 </head>
 <body>
+<!-- <?PHP 
+    // if (isset($_SESSION['id']))
+    // {
+    //     if($_SESSION['id'] == 1)
+    //     {
+    //         $esult = flashMessage("You are logged is as user #1");
+    //     }
+    //     echo "<form action='' method='POST' enctype='multipart/form-data'>
+    //     <table>
+    //         <input type='file' name='file'>
+    //         <button type='submit' name='upload'>upload</button>
+    //     </table>
+    //     </form>";
+    // }
+    // else
+    // {
+    //     $result = flashMessage("You are not logged in.");
+    //     $result = flashMessage("Not yet a member? <a href='signup.php'>signup</a>");
+    // }
+
+    // if(isset($result)) echo $result;
+    // if(!empty($form_errors)) echo show_errors($form_errors);
+    ?> -->
 <h2>User Authentication System</h2><hr>
     <h3>Imagine uploader</h3>
 <form action="" method="post" enctype="multipart/form-data">

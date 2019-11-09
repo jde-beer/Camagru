@@ -1,4 +1,5 @@
-(function() {
+
+window.onload = function() {
 	var canvas = document.getElementById('canvas'),
 		context = canvas.getContext('2d'),
 		video = document.getElementById('video'),
@@ -38,9 +39,10 @@
         });
 		
 	function Snap() {
+		alert("sdfsdgsdgsd");
 		context.drawImage(video, 0, 0, canvas.width, canvas.height);
 	}
 
-})();
+};
 
 
