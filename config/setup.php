@@ -1,6 +1,7 @@
 <?PHP
 include "database.php";
 echo "<h2>Camagru setup</h2>";
+
 try {
    $conn = new PDO($DB_SERVER, $DB_USER, $DB_PASSWORD);
    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -11,6 +12,7 @@ try {
 catch (PDOException $err) {
    echo "<p style='padding:20px; color:red;'> Database not created\n".$err->getMessage()."</p>";
 }
+
 try {
    $conn = new PDO($DB_SERVER_DB, $DB_USER, $DB_PASSWORD);
    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -30,6 +32,7 @@ try {
    {
        echo "<p style='padding:20px; color:red;'> Table: users, not created\n".$err->getMessage()."</p>";
    }
+
 try {
    $conn = new PDO($DB_SERVER_DB, $DB_USER, $DB_PASSWORD);
    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -37,9 +40,30 @@ try {
       `id` INT AUTO_INCREMENT PRIMARY KEY,
       `userid` INT(11) NOT NULL,
       `status` INT(11) NOT NULL
-   )";}
+   )";
+   $conn->exec($query);
+   echo "<p style='padding: 20px; color:green;'> Table: profile, created\n</p>";
+}
    catch (PDOException $err) 
    {
-      echo "<p style='padding:20px; color:red;'> Table: users, not created\n".$err->getMessage()."</p>";
+      echo "<p style='padding:20px; color:red;'> Table: profile, not created\n".$err->getMessage()."</p>";
    }
+
+try {
+      $conn = new PDO($DB_SERVER_DB, $DB_USER, $DB_PASSWORD);
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $query = "CREATE TABLE  gallery(
+         `id` INT AUTO_INCREMENT PRIMARY KEY,
+         `titleGallery` LONGTEXT NOT NULL,
+         `descGallery` LONGTEXT NOT NULL,
+         `imgFullNameGallery` LONGTEXT NOT NULL,
+         `orderGallery` LONGTEXT NOT NULL
+      )";
+      $conn->exec($query);
+      echo "<p style='padding: 20px; color:green;'> Table: Gallery, created\n</p>";
+   }
+      catch (PDOException $err) 
+      {
+         echo "<p style='padding:20px; color:red;'> Table: users, not created\n".$err->getMessage()."</p>";
+      }
 ?>
