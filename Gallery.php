@@ -5,6 +5,7 @@ include_once 'config/utilities.php';
 
 if(isset($_POST['submit']))
 {
+    echo "hey";
     $newFileName = $_POST['filename'];
     if(empty($_POST['filename']))
     {
@@ -32,43 +33,50 @@ if(isset($_POST['submit']))
 
     if (in_array($fileActualExt, $allow))
     {
-        if ($file === 0)
+        if ($fileError === 0)
         {
-            if($filesize < 100000)
+            if($filesize < 50000000)
             {
-                $imagefullname = $fileNewName.".".uniqid('', true).".".$fileactuallyExt;
+                $imagefullname = $newFileName.".".uniqid('', true).".".$fileActualExt;
                 $fileDestination = 'uploads/'.$imagefullname;
-                //move_uploaded_file($filetempname, $fileDestination);
+                move_uploaded_file($filetempname, $fileDestination);
                 //header("Location: index.php?uploadsuccesss");
 
                 if (empty($filetitle) || empty($filedesc))
                 {
-                    header("Location: ../gallery.php?upload=empty");
-                    exit();
+                    header("Location: gallery.php?upload=empty");
                 }
                 else
                 {
-                    $sqlQuery = "SELECT * FROM gallery";
-                    $statement = $DB_NAME->prepare($sqlQuery);
-                    $statement->execute(array());
-                    // while($row = $statement->fetch())
-                    // {
-                    //         echo 
-                    // }
+                    try {
+                        $sql = $DB_NAME->prepare("SELECT * FROM gallery");
+                        $sql->execute();
+                        $row = $sql->fetch();
+                        $rowCount = $sql->rowCount();
+                        $setImageOrder = $rowCount + 1;
+
+                        $sqlQuery = "INSERT INTO gallery (titleGallery, descGallery, imgFullNameGallery, orderGallery) values (:filename, :filetitle, :filedesc, :orderGallery)";
+                        $statement = $DB_NAME->prepare($sqlQuery);
+                        $statement->execute(array(':filename' => $imagefullname, ':filetitle' => $filetitle, ':filedesc' =>  $filedesc, ':orderGallery' => $setImageOrder));
+                        echo "file was uploaded.";
+                    } catch (PDOException $e) {
+                        echo "An errorr occurred: ".$e->getMessage();
+                    }
                 }
-            }
+                
+                }
             else
             {
-                $result = flashMessage("The file was to big!");
+                echo "The file was to big!";
             }
         }
         else{
-            $result = flashMessage("echo you had a error");
+            echo "echo you had a error";
         }
     }
     else
     {
-        $result = flashMessage("incorrect file type");
+        echo "incorrect file type";
     }
 
 }
@@ -80,51 +88,68 @@ if(isset($_POST['submit']))
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Gallery</title>
+    <style>
+        body{
+            margin: 20;
+        }
+        header{
+            margin: .5vw;
+            font-size: 20;
+        }
+        header div{
+            flex: auto;
+            display:inline-block;
+            margin: 10px;
+        }
+        header div img{
+            width: 250px;
+            height: 200px;
+            border: solid 2px black;
+            margin: 2px;
+        }
+    </style>
 </head>
 <body>
-    <section class="gallery-links">
-        <div class="wrapper">
+    <section>
+        <div >
             <h2>Gallery<h2>
-            <div class="gallery-container">
-                <a href="#">
-                <div></div>
-                <h3>Tile</h3>
-                <p>Paragraph</p>
-                </a>
-                <a href="#">
-                <div></div>
-                <h3>Tile</h3>
-                <p>Paragraph</p>
-                </a>
-                <a href="#">
-                <div></div>
-                <h3>Tile</h3>
-                <p>Paragraph</p>
-                </a>
-                <a href="#">
-                <div></div>
-                <h3>Tile</h3>
-                <p>Paragraph</p>
-                </a>
-                <a href="#">
-                <div></div>
-                <h3>Tile</h3>
-                <p>Paragraph</p>
-                </a>
+            <header>
+            <?PHP
+            $sqlQuery = "SELECT * FROM gallery ORDER BY id DESC";
+            $statement = $DB_NAME->prepare($sqlQuery);
+            $statement->execute(array());
+            
+            while ($row = $statement->fetch()) 
+            {                               
+                echo '<div>
+                    <a href="#">
+                    <img src="uploads/'.$row["titleGallery"].'">
+                    <h3>'.$row["imgFullNameGallery"].'</h3>
+                    <p>'.$row["descGallery"].'</p>
+                    </a>
+                    </div>';
+            }
+            ?>
             </div>
             <?PHP if(isset($_SESSION['username']))
             {
-                echo'<div class="gallery-upload">                
-                <form action="fileupload.php" method="post" enctype="multipart/form-data">
+                echo'<div>                
+                <form action="" method="POST" enctype="multipart/form-data">
                 <input type="text" name="filename" placeholder="file name">
                 <input type="text" name="filetitle" placeholder="image title">
                 <input type="text" name="filedesc" placeholder="file description">
                 <input type="file" name="file">
-                <button type="submit" name="submit>">UPLOAD</button>
+                <button type="submit" name="submit">UPLOAD</button>
                 </form>
                 </div>';
             }
+            
         ?>
+        <p>Not yet a member? <a href="signup.php">signup</a> </p>
+        <p><a href="login.php">Login</a></p>
+        <p><a href="index.php">Back</a></p>
+        </header>
+        
     </section>
     
 </body>
