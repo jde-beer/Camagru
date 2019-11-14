@@ -194,6 +194,30 @@ function sendForgotPasswordEmail ($email, $password) {
     }
 }
 
+function sendCommentEmail ($email, $username, $uid, $comment) 
+{
+
+    $subject = "[Meme(Me)] - Comment Notification";
+
+    $headers = 'MIME-Version: 1.0'."\r\n";
+    $headers .= 'Content-type: text/html; charset=UTF-8'."\r\n";
+    $headers .= 'From: <noreply@[Meme(Me)].com>'."\r\n";
+
+    $message = '
+    <html>
+        <head>
+            <title>'.$subject.'</title>
+        </head>
+        <body>
+            Hi there '.$username.' ! <br>
+            It looks like '.$uid.' commented on one of your images, this is what they had to say:<br><br>'.$comment.'<br><br>
+        </body>
+    </html>
+    ';
+
+    mail($email, $subject, $message, $headers);
+}
+
 // function verify($token)
 // {
 //     try

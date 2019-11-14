@@ -54,6 +54,7 @@ try {
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $query = "CREATE TABLE  gallery(
          `id` INT AUTO_INCREMENT PRIMARY KEY,
+         `userid` LONGTEXT NOT NULL,
          `titleGallery` LONGTEXT NOT NULL,
          `descGallery` LONGTEXT NOT NULL,
          `imgFullNameGallery` LONGTEXT NOT NULL,
@@ -66,4 +67,22 @@ try {
       {
          echo "<p style='padding:20px; color:red;'> Table: users, not created\n".$err->getMessage()."</p>";
       }
+try {
+      // Connect to DATABASE previously created
+      $conn = new PDO($DB_SERVER_DB, $DB_USER, $DB_PASSWORD);
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $query = "CREATE TABLE `comments` (
+            `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            `userid` VARCHAR(128) NOT NULL,
+            `imgid` LONGTEXT NOT NULL,
+            `date` datetime NOT NULL,
+            `comment` TEXT NOT NULL
+         )";
+         $conn->exec($query);
+         echo "<p style='padding: 20px; color:green;'> Table: comments created successfully</p>";
+     } 
+     catch (PDOException $err) 
+     {
+         echo "<p style='padding:20px; color:red;'> Table: users, not created\n".$err->getMessage()."</p>";
+     }
 ?>

@@ -5,9 +5,9 @@ include_once 'config/utilities.php';
 
 if (isset($_POST['EmailResetBtn'])) 
 {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $username = $_POST['username'];
+    $email = htmlentities($_POST['email']);
+    $password = htmlentities($_POST['password']);
+    $username = htmlentities($_POST['username']);
 
     $sqlQuery = $DB_NAME->prepare("SELECT * FROM users WHERE username=:username");
     $sqlQuery->execute(array(':username'=>$username));

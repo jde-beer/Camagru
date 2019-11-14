@@ -6,7 +6,7 @@ include_once 'config/utilities.php';
 if(isset($_POST['submit']))
 {
     echo "hey";
-    $newFileName = $_POST['filename'];
+    $newFileName = htmlentities($_POST['filename']);
     if(empty($_POST['filename']))
     {
         $newFileName = uniqid('');
@@ -59,8 +59,8 @@ if(isset($_POST['submit']))
                         $statement = $DB_NAME->prepare($sqlQuery);
                         $statement->execute(array(':filename' => $imagefullname, ':filetitle' => $filetitle, ':filedesc' =>  $filedesc, ':orderGallery' => $setImageOrder));
                         echo "file was uploaded.";
-                    } catch (PDOException $e) {
-                        echo "An errorr occurred: ".$e->getMessage();
+                    } catch (PDOException $err) {
+                        echo "An errorr occurred: ".$err->getMessage();
                     }
                 }
                 
@@ -122,7 +122,7 @@ if(isset($_POST['submit']))
             while ($row = $statement->fetch()) 
             {                               
                 echo '<div>
-                    <a href="#">
+                    <a href="comments.php?img='.$row["titleGallery"].'">
                     <img src="uploads/'.$row["titleGallery"].'">
                     <h3>'.$row["imgFullNameGallery"].'</h3>
                     <p>'.$row["descGallery"].'</p>

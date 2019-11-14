@@ -84,5 +84,6 @@ if(isset($_POST['loginBtn']))
 </form>
 
 <p>Not yet a member? <a href="signup.php">signup</a> </p>
+<p>Private Gallery <a href="private_gallery.php">Private Gallery</a></p>
 </body>
 </html>

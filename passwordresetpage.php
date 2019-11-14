@@ -33,9 +33,9 @@ else
 
         if(empty($form_errors))
         {
-            $email = $_POST['email'];
-            $password1 = $_POST['new_password'];
-            $password2 = $_POST['confirm_password'];
+            $email = htmlentities($_POST['email']);
+            $password1 = htmlentities($_POST['new_password']);
+            $password2 = htmlentities($_POST['confirm_password']);
 
             if($password1 != $password2)
          {
