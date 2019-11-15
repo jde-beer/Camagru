@@ -34,6 +34,7 @@ try {
    }
 
 try {
+   // Connect to DATABASE previously created
    $conn = new PDO($DB_SERVER_DB, $DB_USER, $DB_PASSWORD);
    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    $query = "CREATE TABLE  profileimg(
@@ -50,6 +51,7 @@ try {
    }
 
 try {
+      // Connect to DATABASE previously created
       $conn = new PDO($DB_SERVER_DB, $DB_USER, $DB_PASSWORD);
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $query = "CREATE TABLE  gallery(
@@ -83,6 +85,25 @@ try {
      } 
      catch (PDOException $err) 
      {
-         echo "<p style='padding:20px; color:red;'> Table: users, not created\n".$err->getMessage()."</p>";
+         echo "<p style='padding:20px; color:red;'> Table: comments, not created\n".$err->getMessage()."</p>";
+     }
+
+     try {
+      // Connect to DATABASE previously created
+      $conn = new PDO($DB_SERVER_DB, $DB_USER, $DB_PASSWORD);
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $query = "CREATE TABLE `likes` (
+            `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            `userid` VARCHAR(128) NOT NULL,
+            `imgid` LONGTEXT NOT NULL,
+            `likes` TEXT NOT NULL,
+            `likecount` int(11)
+         )";
+         $conn->exec($query);
+         echo "<p style='padding: 20px; color:green;'> Table: Likes created successfully</p>";
+     } 
+     catch (PDOException $err) 
+     {
+         echo "<p style='padding:20px; color:red;'> Table: Likes, not created\n".$err->getMessage()."</p>";
      }
 ?>

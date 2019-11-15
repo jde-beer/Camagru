@@ -5,14 +5,16 @@ include_once 'config/utilities.php';
 
 date_default_timezone_set('Africa/Johannesburg');
 
-function setComment($DB_NAME) {
+function setComment($DB_NAME) 
+{
     if (isset($_POST['commentSubmit'])) {
         $uid = htmlentities($_POST['uid']);
         $date = htmlentities($_POST['date']);
         $comment = htmlentities($_POST['comment']);
         $img = htmlentities($_GET['img']);
 
-        try {
+        try 
+        {
             $sqlQuery = "INSERT INTO comments (userid, imgid, date, comment) VALUES (:uid, :imgid, :d, :comment)";
             $statement = $DB_NAME->prepare($sqlQuery);
             $statement->execute(array(':uid' => $uid, ':imgid' => $img, ':d' => $date, ':comment' => $comment));
@@ -30,6 +32,15 @@ function setComment($DB_NAME) {
             $RowUserName = $Row['username'];
             $RowEmail = $Row['email'];
 
+            if(isset($_POST['like'])) 
+            {
+                $counter++;
+                // $sqlQuerylike = "SELECT * FROM likes WHERE likes=:likes";
+                // $statementlike = $DB_NAME->prepare($sqlQuerylike);
+                // $statementlike->execute(array(':likes' => $like));
+                // $Row = $statement3->fetch();
+
+            }
             sendCommentEmail($RowEmail, $RowUserName, $uid, $comment);
         } catch (PDOException $err) {
             echo "An errorr occurred: ".$err->getMessage();
@@ -37,7 +48,8 @@ function setComment($DB_NAME) {
     }
 }
 
-function getComments($DB_NAME) {
+function getComments($DB_NAME) 
+{
 
     $img = htmlentities($_GET['img']);
     $sql = "SELECT * FROM comments WHERE imgid=:imgid ORDER BY id DESC";
@@ -52,6 +64,9 @@ function getComments($DB_NAME) {
         echo "</p></div>";
     }
 }
+$counter = 0;
+
+
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +106,7 @@ function getComments($DB_NAME) {
         font-family: arial;
         font-weight: 400;
         cursor: pointer;
-        margin-bottom: 60px;
+        margin-bottom: 20px;
         display:block;
         margin-left: auto;
         margin-right: auto;
@@ -122,7 +137,9 @@ function getComments($DB_NAME) {
         margin-right: auto;
         width: 50%;
         height: 50%;
+        margin-bottom: 20px;
     }
+
 
 </style>
 
@@ -138,7 +155,9 @@ if (isset($_SESSION['id'])) {
     echo "<form method='POST' action='".setComment($DB_NAME)."'>
     <input type='hidden' name='uid' value='".$_SESSION['username']."'>
     <input type='hidden' name='date' value='".date('Y-m-d H:i:s')."'>
-    <textarea name='comment' placeholder='Comment'></textarea><br>
+    <p style='text-align: center;'>$counter</p>
+    <button type='submit' name='like'>like</button>
+    <textarea name='comment' placeholder='Comment'></textarea><br>   
     <button type='submit' name='commentSubmit'>Comment</button>
 </form>";
 }
