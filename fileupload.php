@@ -88,4 +88,5 @@ if(isset($_POST['upload']))
         </table>
         </form>
 </body>
+<footer> &copy; Copyright Jde-beer <?php print date(" Y")?></footer>
 </html>

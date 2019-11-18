@@ -115,6 +115,10 @@ else
             border: solid 2px black;
             margin: 2px;
         }
+        footer{
+        position: absolute;
+        right:0; bottom:0;
+    }
     </style>
 </head>
 <body>
@@ -130,9 +134,10 @@ else
             while ($row = $statement->fetch()) 
             {                               
                 echo '<div>
-                    <a href="#">
+                    <a href="comments.php?img='.$row["titleGallery"].'">
                     <img src="uploads/'.$row["titleGallery"].'">
                     <h3>'.$row["imgFullNameGallery"].'</h3>
+                    <a href=?delete='.$row["id"].'>Delete</a>
                     <p>'.$row["descGallery"].'</p>
                     </a>
                     </div>';
@@ -151,6 +156,15 @@ else
                 </form>
                 </div>';
             }
+            if(isset($_GET["delete"]))
+            {
+                $deleteimage = $_GET["delete"];
+
+                $sqlquery = "DELETE FROM gallery where id = :id";
+                $statement = $DB_NAME->prepare($sqlquery);
+                $statement->execute(array(':id' => $deleteimage));
+                redirectTo("private_gallery");
+            }
             
         ?>
         <p>Not yet a member? <a href="signup.php">signup</a> </p>
@@ -161,4 +175,5 @@ else
     </section>
     
 </body>
+<footer> &copy; Copyright Jde-beer <?php print date(" Y")?></footer>
 </html>

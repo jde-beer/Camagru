@@ -218,6 +218,11 @@ function sendCommentEmail ($email, $username, $uid, $comment)
     mail($email, $subject, $message, $headers);
 }
 
+function Deleteimage()
+{
+    
+}
+
 // function verify($token)
 // {
 //     try

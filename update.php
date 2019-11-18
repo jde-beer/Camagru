@@ -121,6 +121,11 @@ else{
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Password Reset Page</title>
+    <style>
+    footer{
+        position: absolute;
+        right:0; bottom:0;
+    }</style>
 </head>
 <body>
     <h2>User Authentication System</h2><hr>
@@ -148,4 +153,5 @@ else{
     <p><a href="index.php">Back</a><br><a href="logout.php">Log out</a></p>
     
 </body>
+<footer> &copy; Copyright Jde-beer <?php print date(" Y")?></footer>
 </html>

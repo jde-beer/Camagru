@@ -5,8 +5,7 @@ include_once 'config/utilities.php';
 
 if(isset($_POST['submit']))
 {
-    echo "hey";
-    $newFileName = htmlentities($_POST['filename']);
+    $newFileName = $_POST['filename'];
     if(empty($_POST['filename']))
     {
         $newFileName = uniqid('');
@@ -55,9 +54,9 @@ if(isset($_POST['submit']))
                         $rowCount = $sql->rowCount();
                         $setImageOrder = $rowCount + 1;
 
-                        $sqlQuery = "INSERT INTO gallery (titleGallery, descGallery, imgFullNameGallery, orderGallery) values (:filename, :filetitle, :filedesc, :orderGallery)";
+                        $sqlQuery = "INSERT INTO gallery (userid, titleGallery, descGallery, imgFullNameGallery, orderGallery) values (:userid, :filename, :filetitle, :filedesc, :orderGallery)";
                         $statement = $DB_NAME->prepare($sqlQuery);
-                        $statement->execute(array(':filename' => $imagefullname, ':filetitle' => $filetitle, ':filedesc' =>  $filedesc, ':orderGallery' => $setImageOrder));
+                        $statement->execute(array(':userid' => $_SESSION['username'], ':filename' => $imagefullname, ':filetitle' => $filetitle, ':filedesc' =>  $filedesc, ':orderGallery' => $setImageOrder));
                         echo "file was uploaded.";
                     } catch (PDOException $err) {
                         echo "An errorr occurred: ".$err->getMessage();
@@ -107,6 +106,10 @@ if(isset($_POST['submit']))
             border: solid 2px black;
             margin: 2px;
         }
+        footer{
+        position: absolute;
+        right:0; bottom:0;
+    }
     </style>
 </head>
 <body>
@@ -153,5 +156,6 @@ if(isset($_POST['submit']))
     </section>
     
 </body>
+<footer> &copy; Copyright Jde-beer <?php print date(" Y")?></footer>
 </html>
 

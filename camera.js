@@ -4,30 +4,17 @@ window.onload = function() {
 		context = canvas.getContext('2d'),
 		video = document.getElementById('video'),
 		// vendorUrl = window.URL || window.webkitURL,
-		captureButton = document.getElementById('capture');
-	    captureButton.addEventListener("click", Snap);
+		captureButton = document.getElementById('photo-button');
+		saveButton = document.getElementById('save imagine');
+		captureButton.addEventListener("click", Snap);
+		saveButton.addEventListener("click", takePicture);
 
 	navigator.getMedia = 	navigator.getUserMedia ||
 							navigator.webkitGetUserMedia ||
 							navigator.mozGetUserMedia ||
 							navigator.msGetUserMedia ||
 							navigator.oGetUserMedia;
-	// if (navigator.getUserMedia) {
-	// 		navigator.getUserMedia({video: true, audio: false}, 
-    //         	handleVideo, videoError);
-    //     }
-        // navigator.getUserMedia{
 
-        //     video = true;
-        //     aduio = false;
-		// }
-		// function handleVideo(stream) {
-		// 	video.srcObject = stream;
-		// }
-		// function videoError(error) {
-		// 	// An error occured
-		// 	// error.code
-        // }
         navigator.getMedia({
             video: true,
             audio: false
@@ -35,12 +22,41 @@ window.onload = function() {
             video.srcObject = stream;
             video.play();
         }, function(error){
-            //console.log('error');
+            console.log('error');
         });
 		
 	function Snap() {
-		alert("sdfsdgsdgsd");
+
 		context.drawImage(video, 0, 0, canvas.width, canvas.height);
+		
+		var dataURL = canvas.toDataURL("image/jpeg");
+		//console.log("PHP request");		
+
+	}
+
+	//saves the image.
+	function takePicture(){
+		var dataURL = canvas.toDataURL();
+		//creation of form
+		const form = document.createElement('form');
+		form.action = 'camtodb.php';
+		form.method = 'post';
+
+		//creation of image
+		const myogimage = document.createElement('input');
+		myogimage.value = dataURL;
+		myogimage.name = 'baseimage';
+
+		//add input to form
+		form.appendChild(myogimage);
+		//append form to document
+		document.body.appendChild(form);
+		//self submit such
+		form.submit();
+	}
+	
+	function clearPicture(){
+		
 	}
 
 };

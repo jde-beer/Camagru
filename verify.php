@@ -38,4 +38,5 @@ if (isset($_GET['token']) && !empty($_GET['token']))
         <div>VERIFY</div>
         <?php if(isset($result)) echo $result; ?>
     </body>
+    <footer> &copy; Copyright Jde-beer <?php print date(" Y")?></footer>
 </html>

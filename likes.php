@@ -1,32 +1,65 @@
-<?php
+<?php 
+include_once 'config/session.php';
+include_once 'config/connect.php';
+include_once 'config/utilities.php';
 
-if(!isset($_SESSION['counter'])) {
-    $_SESSION['counter'] = 0;
-}
+if ($_GET['img']) {
+		
+    $img = htmlentities($_GET['img']);
+    $sqlQuery = "SELECT * FROM likes WHERE galleryid=:img";
+    $statement = $DB_NAME->prepare($sqlQuery);
+    $statement->execute(array(':img' => $img));
+    $row = $sql->fetch();
+    $imageOwner = $row['userid'];
 
-if(isset($_POST['button'])) {
-    ++$_SESSION['counter'];
-}
-if(isset($_POST['reset'])) {
-    $_SESSION['counter'] = 0;
+    $query = $db->prepare("SELECT * FROM users WHERE username=:userid");
+    $query->execute(array(':userid' => $row['userid']));
+    $Row = $query->fetch();
+    $RowEmail = $Row['email'];
+
+    if ($sql->rowCount() > 0) {
+
+        try {
+            $query = $db->prepare("SELECT * FROM likes WHERE userid=:userid");
+            $query->execute(array(':userid' => $_SESSION['username']));
+            $Row = $query->fetch();
+        } catch (PDOException $e) {
+            echo "An error occurred: ".$e->getMessage();
+        }
+        
+        if ($query->rowCount() > 0) {
+
+            try {
+                $sqlDelete = $db->prepare("DELETE FROM likes WHERE userid=:userid");
+                $sqlDelete->execute(array(':userid' => $_SESSION['username']));
+                header('Location: '.$_SERVER['HTTP_REFERER']);
+            } catch (PDOException $e) {
+                echo "An error occurred: ".$e->getMessage();
+            }
+        }else {
+            $sqlIn = $db->prepare("INSERT INTO likes (userid, galleryid) VALUES (:userid, :galleryid)");
+            $sqlIn->execute(array(':userid' => $_SESSION['username'], ':galleryid' => $img));
+
+            if ($Row['preference'] == 'ON') {
+                sendLikeEmail($RowEmail, $imageOwner, $_SESSION['username']);
+            }
+
+            header('Location: '.$_SERVER['HTTP_REFERER']);
+        }
+    }else { 
+        try {
+            $sqlInsert = $db->prepare("INSERT INTO likes (`userid`, `galleryid`) VALUES (:userid, :galleryid)");
+            $sqlInsert->execute(array(':userid' => $_SESSION['username'], ':galleryid' => $img));
+
+            if ($Row['preference'] == 'ON') {
+                sendLikeEmail($RowEmail, $imageOwner, $_SESSION['username']);
+            }
+            
+            header('Location: '.$_SERVER['HTTP_REFERER']);
+        } catch (PDOException $e) {
+            echo "An error occurred: ".$e->getMessage();
+        }
+    }
 }
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <form method="POST">
-        <input type="hidden" name="counter" value="<?php echo $_SESSION['counter']; ?>" />
-        <input type="submit" name="button" value="Counter" />
-        <input type="submit" name="reset" value="Reset" />
-        <br/><?php echo $_SESSION['counter']; ?>
-    </form>
-    
-</body>
-</html>

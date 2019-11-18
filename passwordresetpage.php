@@ -95,6 +95,10 @@ else
 <head lang="en">
     <meta charset="UTF-8">
     <title>Password reset page</title>
+    <style>footer{
+        position: absolute;
+        right:0; bottom:0;
+    }</style>
 </head>
 <body>
 <h2>User Authentication system </h2><hr>
@@ -121,4 +125,5 @@ else
 </form>
 <p><a href="index.php">Back</a></p>
 </body>
+<footer> &copy; Copyright Jde-beer <?php print date(" Y")?></footer>
 </html>

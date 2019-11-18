@@ -65,5 +65,6 @@ if (isset($_POST['EmailResetBtn']))
 </form>
 <p><a href="index.php">Back</a></p>
 </body>
+<footer> &copy; Copyright Jde-beer <?php print date(" Y")?></footer>
 </html>
 

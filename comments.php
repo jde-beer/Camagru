@@ -139,12 +139,15 @@ $counter = 0;
         height: 50%;
         margin-bottom: 20px;
     }
-
-
+    footer{
+        position: absolute;
+        right:0; bottom:0;
+    }
 </style>
 
 </head>
 <body>
+</div>
 
 <?php
 
@@ -164,3 +167,6 @@ if (isset($_SESSION['id'])) {
 
 getComments($DB_NAME);
 ?>
+
+<p>You are logged in as <?php if(isset($_SESSION['username'])) echo $_SESSION['username']; ?> <a href="logout.php">logout</a> </p>
+<footer> &copy; Copyright Jde-beer <?php print date(" Y")?></footer>

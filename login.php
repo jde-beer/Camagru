@@ -68,6 +68,11 @@ if(isset($_POST['loginBtn']))
 <head lang="en">
     <meta charset="UTF-8">
     <title>Login Page</title>
+    <style>
+    footer{
+        position: absolute;
+        right:0; bottom:0;}
+    </style>
 </head>
 <body>
 <h2>User Authentication system </h2><hr>
@@ -86,4 +91,5 @@ if(isset($_POST['loginBtn']))
 <p>Not yet a member? <a href="signup.php">signup</a> </p>
 <p>Private Gallery <a href="private_gallery.php">Private Gallery</a></p>
 </body>
+<footer> &copy; Copyright Jde-beer <?php print date(" Y")?></footer>
 </html>

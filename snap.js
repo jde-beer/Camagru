@@ -55,6 +55,6 @@ navigator.mediaDevices.getUserMedia({video: true, audio: false})
 	video.onplay();
 })
 .catch(function(err){
-	console.log('Error: ${err}');
+	console.log(err);
 });
 
