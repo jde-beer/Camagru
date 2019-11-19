@@ -218,6 +218,29 @@ function sendCommentEmail ($email, $username, $uid, $comment)
     mail($email, $subject, $message, $headers);
 }
 
+function sendLikeEmail($email, $username, $uid)
+{
+    $subject = "[Meme(Me)] - Comment Notification";
+
+    $headers = 'MIME-Version: 1.0'."\r\n";
+    $headers .= 'Content-type: text/html; charset=UTF-8'."\r\n";
+    $headers .= 'From: <noreply@[Meme(Me)].com>'."\r\n";
+
+    $message = '
+    <html>
+        <head>
+            <title>'.$subject.'</title>
+        </head>
+        <body>
+            Hi there '.$username.' ! <br>
+            It looks like '.$uid.' liked on one of your images.
+        </body>
+    </html>
+    ';
+
+    mail($email, $subject, $message, $headers);
+}
+
 function Deleteimage()
 {
     

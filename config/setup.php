@@ -96,7 +96,7 @@ try {
             `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
             `userid` VARCHAR(128) NOT NULL,
             `imgid` LONGTEXT NOT NULL,
-            `likes` TEXT NOT NULL,
+            `likes` VARCHAR(100) NOT NULL DEFAULT 'N',
             `likecount` int(11)
          )";
          $conn->exec($query);

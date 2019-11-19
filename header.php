@@ -85,8 +85,9 @@ include_once 'config/utilities.php';
                 </button>
                 <div class="dropdown-content">
                 <a href="private_gallery.php">My Gallery</a>
+                <a href="gallery.php">Public Gallery</a>
                 <a href="camera.php">Photo Booth</a>
-                  <a href="reset.php">Update Profile</a>
+                  <a href="update.php">Update Profile</a>
                   <a href="logout.php">Logout</a>
                 </div>
                 <?php endif ?>

@@ -5,7 +5,7 @@ include_once 'config/utilities.php';
 
 if(isset($_POST['submit']))
 {
-    $newFileName = $_POST['filename'];
+    $newFileName = htmlentities($_POST['filename']);
     if(empty($_POST['filename']))
     {
         $newFileName = uniqid('');
@@ -14,8 +14,8 @@ if(isset($_POST['submit']))
     {
         $newFileName = strtolower(str_replace(" ", "-", $newFileName));
     }
-    $filetitle = $_POST['filetitle']; 
-    $filedesc = $_POST['filedesc'];
+    $filetitle = htmlentities($_POST['filetitle']); 
+    $filedesc = htmlentities($_POST['filedesc']);
 
     $file = $_FILES['file'];
 

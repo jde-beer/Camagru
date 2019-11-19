@@ -4,9 +4,9 @@ include_once 'config/utilities.php';
 
 if (isset($_GET['token']) && !empty($_GET['token'])) 
 {
-    $token = $_GET['token'];
+    $token = htmlentities($_GET['token']);
 
-    $sqlQuery = $DB_NAME->prepare("SELECT id FROM users WHERE token='".$token."'");
+    $sqlQuery = $DB_NAME->prepare("SELECT * FROM users WHERE token='".$token."'");
     $sqlQuery->execute();
     $row = $sqlQuery->fetch();
 
@@ -14,7 +14,7 @@ if (isset($_GET['token']) && !empty($_GET['token']))
     {
         if($row['verified'] == 'Y')
         {
-            $result = flashMessage("The account has already benn verified");
+            $result = flashMessage("The account has already been verified");
         }
         else
         {   $query = $DB_NAME->prepare("UPDATE users SET verified='Y' WHERE id = :id");

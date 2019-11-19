@@ -55,9 +55,6 @@ window.onload = function() {
 		form.submit();
 	}
 	
-	function clearPicture(){
-		
-	}
 
 };
 

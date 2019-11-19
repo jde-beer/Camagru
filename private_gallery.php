@@ -158,7 +158,7 @@ else
             }
             if(isset($_GET["delete"]))
             {
-                $deleteimage = $_GET["delete"];
+                $deleteimage = htmlentities($_GET["delete"]);
 
                 $sqlquery = "DELETE FROM gallery where id = :id";
                 $statement = $DB_NAME->prepare($sqlquery);

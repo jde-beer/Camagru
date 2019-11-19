@@ -16,10 +16,10 @@ if(isset($_POST['Signup']))
 
     $form_errors = array_merge($form_errors, check_email($_POST));
 
-    $email = $_POST['email'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
+    $email = htmlentities($_POST['email']);
+    $username = htmlentities($_POST['username']);
+    $password = htmlentities($_POST['password']);
+    $confirm_password = htmlentities($_POST['confirm_password']);
     $url = $_SERVER['HTTP_HOST'].str_replace("signup.php", "", $_SERVER['REQUEST_URI']);
 
     if(checkDuplicateUsername("users", "email", $email, $DB_NAME))
