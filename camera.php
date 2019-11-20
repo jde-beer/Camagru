@@ -141,19 +141,17 @@ include_once 'config/utilities.php';
 	</div>
 	<div>
 		<video id="video"> stream not available</video>
-		<button class="btn" id="photo-button"> Take photo</button>
+       <button class="btn" id="photo-button"> Take photo</button>
 		<select id="photo-filter">
 			<option value="none">Normal</option>
-			<option value="grascale(100%)">Grayscale</option>
-			<option value="sepia(100%)">Sepia</option>
-			<option value="Invert(100%)">Invert</option>
-			<option value="hue-rotate(90deg)">Hue</option>
-			<option value="blur(10px)">Blur</option>
-			<option value="contrast(200%)">Contrast</option>
+            <option value="pikachu">pikachu</option>
+            <option value="squirtle">squirtle</option>
+            <option value="bulbasaur">bulbasaur</option>
 		</select>
-		<!-- <button class="" id="clear-button">Clear</button> -->
+		<button class="" id="clear-button">Clear</button>
 		<button id="save imagine"  onclick="takePicture()">Save</button>
-		<canvas id="canvas"></canvas>
+		<canvas id="canvas" ></canvas>
+        <canvas id="backendcanvas" style="display:none;"></canvas>
 	</div>
 	<div id="photos"><div id="fromphp"> </div>
 	<!-- //display taken images in DESC order on camera,delete image on camera page -->

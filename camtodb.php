@@ -36,5 +36,5 @@ include_once 'config/utilities.php';
         $statement->execute(array(':userid' => $_SESSION['username'], ':filename' => $nameofpic, ':filetitle' => "default", ':filedesc' =>  "default", ':orderGallery' => $setImageOrder));
         echo "file was uploaded.";  
     }
-
+    redirectTo("camera");
 ?>

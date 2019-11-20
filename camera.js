@@ -1,7 +1,9 @@
 
 window.onload = function() {
 	var canvas = document.getElementById('canvas'),
+		canvas2 = document.getElementById('backendcanvas'),
 		context = canvas.getContext('2d'),
+		context2 = canvas2.getContext('2d'),
 		video = document.getElementById('video'),
 		// vendorUrl = window.URL || window.webkitURL,
 		captureButton = document.getElementById('photo-button');
@@ -28,11 +30,36 @@ window.onload = function() {
 	function Snap() {
 
 		context.drawImage(video, 0, 0, canvas.width, canvas.height);
+		context2.drawImage(video, 0, 0, canvas.width, canvas.height)
 		
 		var dataURL = canvas.toDataURL("image/jpeg");
 		//console.log("PHP request");		
 
 	}
+
+	stickv = document.getElementById("photo-filter");
+	stickv.addEventListener("change", function(){
+		// alert("workingy56757657");
+		console.log(this.value);
+		insertSticker(this.value);
+		
+
+	});
+	
+
+	function insertSticker(overlay){
+			// alert(overlay + "drawImage of this overlay on canvas");
+
+			//create new img element
+			var overlay = document.createElement("img");
+			overlay.setAttribute('src', "stickers/pikachu.png");
+			// overlay.setAttribute('src', "stickers/bulbasaur.png");
+			// overlay.setAttribute('src', "stickers/squirtle.png");
+
+			//draw it on to the canvas
+			context.drawImage(overlay, 0, 0, 100, 100)
+	}
+
 
 	//saves the image.
 	function takePicture(){
