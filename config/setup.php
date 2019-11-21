@@ -57,10 +57,8 @@ try {
       $query = "CREATE TABLE  gallery(
          `id` INT AUTO_INCREMENT PRIMARY KEY,
          `userid` LONGTEXT NOT NULL,
-         `titleGallery` LONGTEXT NOT NULL,
          `descGallery` LONGTEXT NOT NULL,
-         `imgFullNameGallery` LONGTEXT NOT NULL,
-         `orderGallery` LONGTEXT NOT NULL
+         `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )";
       $conn->exec($query);
       echo "<p style='padding: 20px; color:green;'> Table: Gallery, created\n</p>";

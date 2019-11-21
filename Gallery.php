@@ -193,34 +193,15 @@ if(isset($_POST['submit']))
             while ($row = $statement->fetch()) 
             {                               
                 echo '<div>
-                    <a href="comments.php?img='.$row["titleGallery"].'">
-                    <img src="uploads/'.$row["titleGallery"].'">
-                    <h3>'.$row["imgFullNameGallery"].'</h3>
+                    <a href="comments.php?img='.$row["id"].'">
+                    <img src="uploads/'.$row["id"].'.png">
                     <p>'.$row["descGallery"].'</p>
                     </a>
                     </div>';
             }
             ?>
             </div>
-            <?PHP if(isset($_SESSION['username']))
-            {
-                echo'<div>                
-                <form action="" method="POST" enctype="multipart/form-data">
-                <input type="text" name="filename" placeholder="file name">
-                <input type="text" name="filetitle" placeholder="image title">
-                <input type="text" name="filedesc" placeholder="file description">
-                <input type="file" name="file">
-                <button type="submit" name="submit">UPLOAD</button>
-                </form>
-                </div>';
-            }
-            
-        ?>
-        <p>Not yet a member? <a href="signup.php">signup</a> </p>
-        <p><a href="login.php">Login</a></p>
-        <p><a href="index.php">Back</a></p>
-        </header>
-        
+        </header>     
     </section>
     
 </body>

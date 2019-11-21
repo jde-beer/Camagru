@@ -14,3 +14,8 @@
 	text-align: center;
 	text-decoration: none;
 }
+
+.stickers {
+	width: 10%;
+	display: inline-block;
+}

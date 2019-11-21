@@ -124,13 +124,13 @@ function checkDuplicateUsername($table, $column_name, $value, $DB_NAME)
         $statement = $DB_NAME->prepare($sqlQuery);
         $statement->execute(array(":".$column_name => $value));
 
-        if($row = $statement->fetch())
+        if($statement->rowCount() > 0)
             return true;
         return false;
     }
     catch (PDOException $ex)
     {
-
+        echo $ex->getMessage();
     }
 }
 

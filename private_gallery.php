@@ -195,16 +195,15 @@ else
             <h2>Gallery<h2>
             <header>
             <?PHP
-            $sqlQuery = "SELECT * FROM gallery WHERE userid = :username ORDER BY id DESC";
+            $sqlQuery = "SELECT * FROM gallery WHERE userid = :username ORDER BY `time` DESC";
             $statement = $DB_NAME->prepare($sqlQuery);
-            $statement->execute(array(':username' => $_SESSION['username']));
+            $statement->execute(array(':username' => $_SESSION['id']));
             
             while ($row = $statement->fetch()) 
             {                               
                 echo '<div>
-                    <a href="comments.php?img='.$row["titleGallery"].'">
-                    <img src="uploads/'.$row["titleGallery"].'">
-                    <h3>'.$row["imgFullNameGallery"].'</h3>
+                    <a href="comments.php?img='.$row["id"].'">
+                    <img src="uploads/'.$row["id"].'.png">
                     <a href=?delete='.$row["id"].'>Delete</a>
                     <p>'.$row["descGallery"].'</p>
                     </a>
@@ -212,18 +211,7 @@ else
             }
             ?>
             </div>
-            <?PHP if(isset($_SESSION['username']))
-            {
-                echo'<div>                
-                <form action="" method="POST" enctype="multipart/form-data">
-                <input type="text" name="filename" placeholder="file name">
-                <input type="text" name="filetitle" placeholder="image title">
-                <input type="text" name="filedesc" placeholder="file description">
-                <input type="file" name="file">
-                <button type="submit" name="submit">UPLOAD</button>
-                </form>
-                </div>';
-            }
+            <?PHP        
             if(isset($_GET["delete"]))
             {
                 $deleteimage = htmlentities($_GET["delete"]);
@@ -231,13 +219,14 @@ else
                 $sqlquery = "DELETE FROM gallery where id = :id";
                 $statement = $DB_NAME->prepare($sqlquery);
                 $statement->execute(array(':id' => $deleteimage));
+                unlink("uploads/".$deleteimage.".png");
                 redirectTo("private_gallery");
             }
             
         ?>
-        <p>Not yet a member? <a href="signup.php">signup</a> </p>
+        <!-- <p>Not yet a member? <a href="signup.php">signup</a> </p>
         <p><a href="login.php">Login</a></p>
-        <p><a href="index.php">Back</a></p>
+        <p><a href="index.php">Back</a></p> -->
         </header>
         
     </section>

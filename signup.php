@@ -4,6 +4,10 @@ include_once 'config/utilities.php';
 
 if(isset($_POST['Signup']))
 {
+    $email = htmlentities($_POST['email']);
+    $username = htmlentities($_POST['username']);
+    $password = htmlentities($_POST['password']);
+    $confirm_password = htmlentities($_POST['confirm_password']);
     $form_errors = array();
 
     $required_fields = array('email', 'username', 'password', 'confirm_password');
@@ -14,26 +18,29 @@ if(isset($_POST['Signup']))
 
     $form_errors = array_merge($form_errors, check_min_length($field_to_check_length));
 
+    $form_errors = array_merge($form_errors, check_username($username));
+
+    $form_errors = array_merge($form_errors, check_pass($password));
+    
     $form_errors = array_merge($form_errors, check_email($_POST));
 
-    $email = htmlentities($_POST['email']);
-    $username = htmlentities($_POST['username']);
-    $password = htmlentities($_POST['password']);
-    $confirm_password = htmlentities($_POST['confirm_password']);
     $url = $_SERVER['HTTP_HOST'].str_replace("signup.php", "", $_SERVER['REQUEST_URI']);
 
     if(checkDuplicateUsername("users", "email", $email, $DB_NAME))
     {
-        $result = flashMessage("Email in use already.");
+        //$result = flashMessage("Email in use already.");
+        $form_errors[] = "Email in use already.";
     }
     if(checkDuplicateUsername("users", "username", $username, $DB_NAME))
     {
-        $result = flashMessage("Username in use already.");
+        //$result = flashMessage("Username in use already.");
+        $form_errors[] = "Username in use already.";
     }
 
     if($password != $confirm_password)
     {
-        $result = flashMessage("Password Does Not Match");
+        // $result = flashMessage("Password Does Not Match");
+        $form_errors[] = "Password Does Not Match.";
     }
 
     if(empty($form_errors))

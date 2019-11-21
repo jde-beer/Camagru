@@ -19,7 +19,7 @@ function setComment($DB_NAME)
             $statement = $DB_NAME->prepare($sqlQuery);
             $statement->execute(array(':uid' => $uid, ':imgid' => $img, ':d' => $date, ':comment' => $comment));
 
-            $sqlSelect = "SELECT * FROM gallery WHERE titleGallery=:titleGallery";
+            $sqlSelect = "SELECT * FROM gallery WHERE id=:titleGallery";
             $statement2 = $DB_NAME->prepare($sqlSelect);
             $statement2->execute(array(':titleGallery' => $img));
             $row = $statement2->fetch();
@@ -232,7 +232,7 @@ function getComments($DB_NAME)
 
 
 $img = htmlentities($_GET['img']);
-echo '<img src="uploads/'.$img.'">';
+echo '<img src="uploads/'.$img.'.png">';
 $sqllikes = "SELECT * FROM likes where imgid = :img";
 $statmentlike = $DB_NAME->prepare($sqllikes);
 $statmentlike->execute(array(':img'=> $img));

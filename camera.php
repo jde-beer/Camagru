@@ -11,6 +11,63 @@ include_once 'config/utilities.php';
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Snapper</title>
 	<style>
+
+#recap, .dec {
+	display: none;
+}
+
+.stickers {
+	width: 80px;
+	display: inline-block;
+
+}
+
+.wrapper {
+	margin: 0 auto;
+	position: relative;
+	display: none;
+    width: 400px;
+    height: 300px;
+}
+
+.viewS {
+    position: relative;
+    top: 0;
+	left: 0;
+}
+
+.viewS #view {
+	display: none;
+}
+
+#post {
+	display: none;
+}
+
+.dec {
+	height: 100px;
+}
+
+.view {
+	position: absolute;
+}
+
+#post{
+	display: block;
+	margin: 1vh auto;
+}
+
+#reset {
+	display: none;
+}
+
+#video, .view {
+	transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+    -moz-transform:rotateY(180deg); 
+	display: block; 
+}
+
 	footer{
         position: absolute;
         right:0; bottom:0;
@@ -34,6 +91,12 @@ include_once 'config/utilities.php';
 		padding: 10px;
 		margin-bottom: 5px;
 	} */
+
+    .stickers {
+    width: 10vw;
+    height: 10vh;
+	display: inline-block;
+    }
 
 	button{
 		background: #f4f4f4;
@@ -139,23 +202,49 @@ include_once 'config/utilities.php';
 	<div>
 		<h1>snapper</h1>
 	</div>
-	<div>
-		<video id="video"> stream not available</video>
-       <button class="btn" id="photo-button"> Take photo</button>
-		<select id="photo-filter">
-			<option value="none">Normal</option>
-            <option value="pikachu">pikachu</option>
-            <option value="squirtle">squirtle</option>
-            <option value="bulbasaur">bulbasaur</option>
-		</select>
-		<button class="" id="clear-button">Clear</button>
-		<button id="save imagine"  onclick="takePicture()">Save</button>
-		<canvas id="canvas" ></canvas>
-        <canvas id="backendcanvas" style="display:none;"></canvas>
+	<div class="form">
+<div class="try">	
+	<video id="video" autoplay width="640" hieght="480"></video>
+	<div class="wrapper">
+
+	<canvas display="none" id="view" class="view"></canvas>
+	<canvas display="none" id="viewS" class="viewS"></canvas>
 	</div>
-	<div id="photos"><div id="fromphp"> </div>
-	<!-- //display taken images in DESC order on camera,delete image on camera page -->
-	<script src="camera.js"></script>
+	<button id="cap" class="btn btn-primary">Capture</button>
+	<input type="file" name="u_pic" onchange="uploadToC()" id="ftu">
+	<button id="recap" display="none" class="btn btn-primary">Recapture</button>
+	<button id="reset" display="none" onClick="reset()" class="btn btn-primary">Reset Stickers</button>
+</div>	
+<div class="dec">
+	<?php
+			if ($handle = opendir('stickers')) {
+                while (false !== ($entry = readdir($handle))) {
+                    if ($entry != "." && $entry != "..") {
+                        echo "<button onclick='addImg(\"$entry\")'><img class='stickers' src='stickers/".$entry."'></button>";
+                    }
+                }
+                closedir($handle);
+            }
+	?>
+</div>
+<div>
+		<form method="post" action="#">
+		<input type="hidden" id="imgUrl" name="imgUrl">
+		<input type="hidden" id="sURL" name="sURL">
+		<label>Caption</label><br />
+		<input type="text" name="caption" id="caption">
+		<input type="submit" class="btn btn-primary postP" id="postP" onclick="saveImg()">POST PICTURE</button>
+</form>
+	</div>
+<script type="text/javascript">
+	<?php 
+		require_once "camera.js";
+	?>
+</script>
+</div>
+<?php
+    require_once "camtodb.php";
+?>
 </body>
 <footer> &copy; Copyright Jde-beer <?php print date(" Y")?></footer>
 </html>
