@@ -241,10 +241,6 @@ function sendLikeEmail($email, $username, $uid)
     mail($email, $subject, $message, $headers);
 }
 
-function Deleteimage()
-{
-    
-}
 
 // function verify($token)
 // {

@@ -38,6 +38,7 @@ else{
             $form_errors[] = "Password and Retype password do not match.";
         }
     }
+    // this is the username update
     if(!empty($username)){
         $form_errors = array_merge($form_errors, check_username($username));
         if(empty($form_errors)){ 
@@ -56,6 +57,7 @@ else{
                 $result = flashMessage("Error(s): ".count($form_errors)."<br>");
         }
     }
+    // this is the password update
     if(!empty($password1) && !empty($password2)){
         $form_errors = array_merge($form_errors, check_pass($password1));
         if(empty($form_errors)){ 
@@ -74,6 +76,7 @@ else{
             $result = flashMessage("Error(s): ".count($form_errors)."<br>");
         }
     }
+    //this is the email update
     if(!empty($email)){
         $form_errors = array_merge($form_errors, check_email($_POST));      
         if(empty($form_errors)){ 
@@ -120,7 +123,7 @@ else{
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Password Reset Page</title>
+    <title>Update Account Details</title>
     <style>
     footer{
         position: absolute;

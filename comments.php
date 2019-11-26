@@ -19,11 +19,11 @@ function setComment($DB_NAME)
             $statement = $DB_NAME->prepare($sqlQuery);
             $statement->execute(array(':uid' => $uid, ':imgid' => $img, ':d' => $date, ':comment' => $comment));
 
-            $sqlSelect = "SELECT * FROM gallery WHERE id=:titleGallery";
+            $sqlSelect = "SELECT * FROM gallery WHERE id=:descGallery";
             $statement2 = $DB_NAME->prepare($sqlSelect);
-            $statement2->execute(array(':titleGallery' => $img));
+            $statement2->execute(array(':descGallery' => $img));
             $row = $statement2->fetch();
-            $rowUserId = $row['userid'];
+            $rowUserId = $row['descGallery'];
 
             $sqlQuery2 = "SELECT * FROM users WHERE username=:username";
             $statement3 = $DB_NAME->prepare($sqlQuery2);
@@ -32,7 +32,6 @@ function setComment($DB_NAME)
             $RowUserName = $Row['username'];
             $RowEmail = $Row['email'];
 
-            
             sendCommentEmail($RowEmail, $RowUserName, $uid, $comment);
         } catch (PDOException $err) {
             echo "An errorr occurred: ".$err->getMessage();
@@ -232,15 +231,35 @@ function getComments($DB_NAME)
 
 
 $img = htmlentities($_GET['img']);
-echo '<img src="uploads/'.$img.'.png">';
-$sqllikes = "SELECT * FROM likes where imgid = :img";
-$statmentlike = $DB_NAME->prepare($sqllikes);
-$statmentlike->execute(array(':img'=> $img));
-$counter = 0;
+try{
+    $sqlcheck = "SELECT * FROM gallery where id = :id";
+    $statementcheck = $DB_NAME->prepare($sqlcheck);
+    $statementcheck->execute(array(':id' => $img));
+    $Row = $statementcheck->fetch();
+    
+    if(isset($Row['id']))
+    {
+        echo '<img src="uploads/'.$img.'.png">';
+    }
+    else
+    {
+        redirectTo("gallery");
+    }
+}
+catch (PDOException $err) 
+     {
+         echo "Error Page not found ".$err->getMessage();
+     }
+
+    $sqllikes = "SELECT * FROM likes where imgid = :img";
+    $statmentlike = $DB_NAME->prepare($sqllikes);
+    $statmentlike->execute(array(':img'=> $img));
+    $counter = 0;
 while($row = $statmentlike->fetch())
 {
     $counter++;
 }
+// only shows if your logged in
 if (isset($_SESSION['id'])) {
     echo "<form method='POST' action='".setComment($DB_NAME)."'>
     <input type='hidden' name='uid' value='".$_SESSION['username']."'>

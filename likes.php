@@ -43,7 +43,8 @@ if (htmlentities($_GET['img'])) {
             $sqlIn->execute(array(':userid' => $_SESSION['username'], ':imgid' => $img));
 
             if ($Row['preference'] == 'ON') {
-                sendLikeEmail($RowEmail, $imageOwner, $_SESSION['username']);
+                // sendLikeEmail($RowEmail, $RowUserName, $uid, $comment);
+                // sendLikeEmail($RowEmail, $imageOwner, $_SESSION['username']);
             }
 
             header('Location: '.$_SERVER['HTTP_REFERER']);
@@ -54,7 +55,8 @@ if (htmlentities($_GET['img'])) {
             $sqlInsert->execute(array(':userid' => $_SESSION['username'], ':imgid' => $img));
 
             if ($Row['preference'] == 'ON') {
-                sendLikeEmail($RowEmail, $imageOwner, $_SESSION['username']);
+                // sendLikeEmail($RowEmail, $RowUserName, $uid, $comment);
+                //sendLikeEmail($RowEmail, $imageOwner, $_SESSION['username']);
             }
             
             header('Location: '.$_SERVER['HTTP_REFERER']);

@@ -92,7 +92,8 @@ function addImg(img) {
 	var str = 'stickers/'
 	  base_image.src = str.concat(img);
 	  s.push(img);
-  	context.drawImage(base_image, Math.floor((Math.random() * 300) + 1), 0, 100, 100);
+	//to make it random position on the top  
+	context.drawImage(base_image, Math.floor((Math.random() * 300) + 1), 0, 100, 100);
 }
 
 function reset(){
