@@ -76,7 +76,7 @@ try {
             `userid` VARCHAR(128) NOT NULL,
             `imgid` LONGTEXT NOT NULL,
             `date` datetime NOT NULL,
-            `comment` TEXT NOT NULL
+            `comment` LONGBLOB NOT NULL
          )";
          $conn->exec($query);
          echo "<p style='padding: 20px; color:green;'> Table: comments created successfully</p>";

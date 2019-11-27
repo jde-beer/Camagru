@@ -217,7 +217,9 @@ include_once 'config/utilities.php';
 </div>	
 <div class="dec">
 	<?php
+                //if it can find the director it opens it
 			if ($handle = opendir('stickers')) {
+                // for each image in the folder it makes a button with the sticker on it.
                 while (false !== ($entry = readdir($handle))) {
                     if ($entry != "." && $entry != "..") {
                         echo "<button onclick='addImg(\"$entry\")'><img class='stickers' src='stickers/".$entry."'></button>";

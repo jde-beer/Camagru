@@ -40,9 +40,11 @@ include_once 'config/utilities.php';
 
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER["REQUEST_METHOD"] === "POST")
 		{
+			// this puts everything in to array.
             $pAr = ['caption' => $_POST['caption'], 'user'=>$_SESSION["id"]];
             try
 			{
+				// this inserts into the gallery.
 				$sql = "INSERT INTO `gallery`(`userid`, `descGallery`, `imgFullNameGallery`) VALUES (:u,:p, 'DEFAULT')";
 				$req = $DB_NAME->prepare($sql);
 				$req->execute([
@@ -56,6 +58,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER["REQUEST_METHOD"] === "POST")
 			}
 			try
 			{
+				//this finds the id of the image row that you just inserted into.
 				$sql = "SELECT `id` FROM `gallery` WHERE `userid`=:u ORDER BY `time` DESC LIMIT 1;";
 				$req = $DB_NAME->prepare($sql);
 				$req->execute([
@@ -68,25 +71,33 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER["REQUEST_METHOD"] === "POST")
 			{
 				echo "A thing went wrong: ".$e->getMessage();
 			}
+			//the image url
 			$img = $_POST['imgUrl'];
+			//sticker url
 			$sti = $_POST['sURL'];
+			//this allows php to understand the url.
 			$img = str_replace('data:image/png;base64,', '', $img);
 			$img = str_replace(' ', '+', $img);
 			$sti = str_replace('data:image/png;base64,', '', $sti);
 			$sti = str_replace(' ', '+', $sti);
+			//this creates a image from the url.
 			$imgData = base64_decode($img);
 			$imgIMG = imagecreatefromstring($imgData);
+			// this creates a image from the sticker
 			$stiData = base64_decode($sti);
 			$stiIMG = imagecreatefromstring($stiData);
+			//this gets the height and width of the image.
 			$w = imagesx ($imgData);
-			$h = imagesy ($imgData);;
+			$h = imagesy ($imgData);
+			//this sets where you want to upload and the name of it.
 			$file = "uploads/" . $picID .'.png';
+			//prepares both images.
 			imagealphablending($imgIMG, true);
 			imagesavealpha($imgIMG, true);
 			imagesavealpha($stiIMG, true);
-			$w = imagesx ($imgIMG);
-			$h = imagesy ($imgIMG);
+			//this merges the two images.
 			imagecopy($imgIMG, $stiIMG, 0, 0, 0, 0, $w, $h);
+			//this just saves the image.
 			imagePng($imgIMG, $file);
 			redirectTo("index");
 		}
