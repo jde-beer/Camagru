@@ -30,15 +30,6 @@ include_once 'config/utilities.php';
     height: 300px;
 }
 
-.viewS {
-    position: relative;
-    top: 0;
-	left: 0;
-}
-
-.viewS #view {
-	display: none;
-}
 
 #post {
 	display: none;
@@ -203,50 +194,46 @@ include_once 'config/utilities.php';
 		<h1>snapper</h1>
 	</div>
 	<div class="form">
-<div class="try">	
-	<video id="video" autoplay width="640" hieght="480"></video>
-	<div class="wrapper">
-
-	<canvas display="none" id="view" class="view"></canvas>
-	<canvas display="none" id="viewS" class="viewS"></canvas>
+<div>
+    <div>
+        <video id="video" autoplay width="480" hieght="300"></video><br>
+    </div>
+	<div class=""> 
+        <canvas id="viewS" width="480" height="300" style="position: absolute;"></canvas>
+	    <canvas style="display:block" id="view" width="480" height="300"></canvas><br>
 	</div>
 	<button id="cap" class="btn btn-primary">Capture</button>
-	<input type="file" name="u_pic" onchange="uploadToC()" id="ftu">
-	<button id="recap" display="none" class="btn btn-primary">Recapture</button>
-	<button id="reset" display="none" onClick="reset()" class="btn btn-primary">Reset Stickers</button>
+	<input type="file" name="u_pic" id="ftu">
+    
 </div>	
-<div class="dec">
-	<?php
-                //if it can find the director it opens it
-			if ($handle = opendir('stickers')) {
-                // for each image in the folder it makes a button with the sticker on it.
-                while (false !== ($entry = readdir($handle))) {
-                    if ($entry != "." && $entry != "..") {
-                        echo "<button onclick='addImg(\"$entry\")'><img class='stickers' src='stickers/".$entry."'></button>";
-                    }
-                }
-                closedir($handle);
-            }
-	?>
-</div>
 <div>
-		<form method="post" action="#">
-		<input type="hidden" id="imgUrl" name="imgUrl">
-		<input type="hidden" id="sURL" name="sURL">
-		<label>Caption</label><br />
-		<input type="text" name="caption" id="caption">
-		<input type="submit" class="btn btn-primary postP" id="postP" onclick="saveImg()">POST PICTURE</button>
-</form>
-	</div>
+		<br><button id="postBtn">Post</button><br><br>
+        <img src="stickers/bulbasaur.png" alt="" id="bul" width="75" height="75">
+        <img src="stickers/pikachu.png" alt="" id="pika" width="75" height="75">
+        <img src="stickers/squirtle.png" alt="" id="squ" width="75" height="75">
+</div>
+<?php 
+    $query = $db->prepare("SELECT * FROM gallery WHERE userid = :userid ORDER BY id DESC LIMIT 5");
+    $query->execute(array(':userid' => $_SESSION['username']));
+    while($row = $query->fetch()){
+        if(preg_match('/cameraEdit/', $row['descGallery'])){
+            echo    "<div>
+                        <a href='comment.php?img=".$row['descGallery']."'>
+                            <img src='uploads/".$row['descGallery']."'>
+                        </a>
+                    </div>";
+        }
+    }
+?>
 <script type="text/javascript">
 	<?php 
-		require_once "camera.js";
+		require_once "snap.js";
 	?>
 </script>
 </div>
 <?php
     require_once "camtodb.php";
 ?>
-</body>
+</body><br>
 <footer> &copy; Copyright Jde-beer <?php print date(" Y")?></footer>
 </html>
