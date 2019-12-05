@@ -54,7 +54,8 @@ else
                     {
                         try 
                         {
-                            $sql = $DB_NAME->prepare("SELECT * FROM gallery");
+                            $sql1 = "SELECT * FROM gallery";
+                            $sql = $DB_NAME->prepare($sql1);
                             $sql->execute();
                             $row = $sql->fetch();
                             $rowCount = $sql->rowCount();

@@ -3,7 +3,7 @@
 	include_once 'config/connect.php';
 	include_once 'config/utilities.php';
 
-	//$usrname = $_SESSION['username'];
+	//$username = $_SESSION['username'];
 	$base = $_POST['imgUrl'];
 	$sticker = $_POST['sURL'];
 	
@@ -42,7 +42,8 @@
 		}
 
 		try{
-	        $query = $db->prepare("INSERT INTO gallery (userid, descGallery) VALUES (:userid, :descG)");
+			$sqlquery = "INSERT INTO gallery (userid, descGallery) VALUES (:userid, :descG)";
+	        $query = $DB_NAME->prepare($sqlquery);
 	        $query->execute(array(':userid' => $_SESSION['username'], ':desG' => $imgName));
 
 	    } catch (PDOException $e){

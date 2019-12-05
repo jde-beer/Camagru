@@ -50,7 +50,6 @@ if(isset($_POST['Signup']))
         try
         {
             $sqlInsert = "INSERT INTO users (`email`, `username`, `password`, `token`, `join_date`) VALUES (:email, :username, :password, :token, now())";
-
             $statement = $DB_NAME->prepare($sqlInsert);
             $statement->execute(array(':email' => $email, ':username' => $username, ':password' => $hashed_password, 'token' => $token));
 

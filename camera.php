@@ -63,26 +63,7 @@ include_once 'config/utilities.php';
         position: absolute;
         right:0; bottom:0;
 	}
-	/* /* body {
-		margin: 0;
-		padding: 0;
-		font-family: Arial, Helvetica, sans-serif;
-		background: #FFF;
-		overflow-x: hidden;
-	}
-
-	.top-container{
-		width: 500px;
-		margin: 30px auto;
-	}
-
-	.btn{
-		display: block;
-		width: 100%;
-		padding: 10px;
-		margin-bottom: 5px;
-	} */
-
+	
     .stickers {
     width: 10vw;
     height: 10vh;
@@ -154,21 +135,6 @@ include_once 'config/utilities.php';
     .dropdown:hover .dropdown-content{
         display: block;
     }
-
-	/* .select{
-		height:40px;
-		background: #333;
-		color: #FFF;
-		padding: 3px;
-		width: 100%;
-		border: 1px #ffa500;
-		margin-bottom: 10px;
-	}
-
-	#canvas{
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-	} */ */
     </style>
 </head>
 <body>
@@ -212,8 +178,9 @@ include_once 'config/utilities.php';
         <img src="stickers/pikachu.png" alt="" id="pika" width="75" height="75">
         <img src="stickers/squirtle.png" alt="" id="squ" width="75" height="75">
 </div>
-<?php 
-    $query = $db->prepare("SELECT * FROM gallery WHERE userid = :userid ORDER BY id DESC LIMIT 5");
+<?php
+    $query1 = "SELECT * FROM gallery WHERE userid = :userid ORDER BY id DESC LIMIT 5";
+    $query = $db->prepare($query1);
     $query->execute(array(':userid' => $_SESSION['username']));
     while($row = $query->fetch()){
         if(preg_match('/cameraEdit/', $row['descGallery'])){

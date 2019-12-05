@@ -22,7 +22,8 @@ if (htmlentities($_GET['img'])) {
     if ($statement->rowCount() > 0) {
 
         try {
-            $query = $DB_NAME->prepare("SELECT * FROM likes WHERE userid=:userid");
+            $query1 = "SELECT * FROM likes WHERE userid=:userid";
+            $query = $DB_NAME->prepare($query1);
             $query->execute(array(':userid' => $_SESSION['username']));
             $Row = $query->fetch();
         } catch (PDOException $e) {
@@ -32,32 +33,25 @@ if (htmlentities($_GET['img'])) {
         if ($query->rowCount() > 0) {
 
             try {
-                $sqlDelete = $DB_NAME->prepare("DELETE FROM likes WHERE userid=:userid");
+                $delete = "DELETE FROM likes WHERE userid=:userid";
+                $sqlDelete = $DB_NAME->prepare($delete);
                 $sqlDelete->execute(array(':userid' => $_SESSION['username']));
                 header('Location: '.$_SERVER['HTTP_REFERER']);
             } catch (PDOException $e) {
                 echo "An error occurred: ".$e->getMessage();
             }
         }else {
-            $sqlIn = $DB_NAME->prepare("INSERT INTO likes (userid, imgid) VALUES (:userid, :imgid)");
+            $like = "INSERT INTO likes (userid, imgid) VALUES (:userid, :imgid)";
+            $sqlIn = $DB_NAME->prepare($like);
             $sqlIn->execute(array(':userid' => $_SESSION['username'], ':imgid' => $img));
-
-            if ($Row['preference'] == 'ON') {
-                // sendLikeEmail($RowEmail, $RowUserName, $uid, $comment);
-                // sendLikeEmail($RowEmail, $imageOwner, $_SESSION['username']);
-            }
 
             header('Location: '.$_SERVER['HTTP_REFERER']);
         }
     }else { 
         try {
-            $sqlInsert = $DB_NAME->prepare("INSERT INTO likes (`userid`, `imgid`) VALUES (:userid, :imgid)");
+            $likes = "INSERT INTO likes (userid, imgid) VALUES (:userid, :imgid)";
+            $sqlInsert = $DB_NAME->prepare($likes);
             $sqlInsert->execute(array(':userid' => $_SESSION['username'], ':imgid' => $img));
-
-            if ($Row['preference'] == 'ON') {
-                // sendLikeEmail($RowEmail, $RowUserName, $uid, $comment);
-                //sendLikeEmail($RowEmail, $imageOwner, $_SESSION['username']);
-            }
             
             header('Location: '.$_SERVER['HTTP_REFERER']);
         } catch (PDOException $e) {

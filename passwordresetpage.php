@@ -46,21 +46,15 @@ else
                 try
                 {
                     $sqlQuery = "SELECT email FROM users WHERE email =:email";
-
                     $statement = $DB_NAME->prepare($sqlQuery);
-
                     $statement->execute(array(':email' => $email));
 
                     if($statement->rowCount() == 1)
                     {
                         $hashed_password = password_hash($password1, PASSWORD_DEFAULT);
-
                         $sqlUpdate = "UPDATE users SET password =:password WHERE email =:email";
-
                         $statement = $DB_NAME->prepare($sqlUpdate);
-
                         $statement->execute(array(':password' => $hashed_password, ':email' => $email));
-
                         $result = "<p style='padding:20px; border: 1px solid gray; color: greed;'> Password Reset Successful</p>";
                     }
                     else

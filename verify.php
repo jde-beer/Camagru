@@ -6,7 +6,8 @@ if (isset($_GET['token']) && !empty($_GET['token']))
 {
     $token = htmlentities($_GET['token']);
 
-    $sqlQuery = $DB_NAME->prepare("SELECT * FROM users WHERE token='".$token."'");
+    $sql = "SELECT * FROM users WHERE token='".$token."'";
+    $sqlQuery = $DB_NAME->prepare($sql);
     $sqlQuery->execute();
     $row = $sqlQuery->fetch();
 
@@ -17,7 +18,9 @@ if (isset($_GET['token']) && !empty($_GET['token']))
             $result = flashMessage("The account has already been verified");
         }
         else
-        {   $query = $DB_NAME->prepare("UPDATE users SET verified='Y' WHERE id = :id");
+        {
+            $query1 = "UPDATE users SET verified='Y' WHERE id = :id"; 
+            $query = $DB_NAME->prepare($query1);
             $query->execute(array('id' => $row['id']));
             $result = flashMessage("Your acount has been verified, you can now login", "Pass");
         }
