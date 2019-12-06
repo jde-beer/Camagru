@@ -24,6 +24,7 @@ include_once 'config/session.php';
         .navbar {
         overflow: hidden;
         background-color: #333;
+        
         }
     .navbar a {
         float: left;
@@ -32,6 +33,7 @@ include_once 'config/session.php';
         text-align: center;
         padding:: 14px 16px;
         text-decoration: none;
+        margin-right: 5px;
     }
     .dropdown{
         float: left;
@@ -77,6 +79,7 @@ include_once 'config/session.php';
 <h1><i>Camagru</i></h1><hr>
     <div class="navbar">
         <a href="index.php">Home</a>
+        <a href="Gallery.php"> Gallery</a>
             <div class="dropdown">
                 <?php if (isset($_SESSION['username'])): ?>
                 <button class="dropbtn">Menu 
@@ -93,7 +96,6 @@ include_once 'config/session.php';
             </div> 
     </div>
 <!-- <h2>User Authentication system </h2><hr> -->
-
 <?PHP if(!isset($_SESSION['username'])): ?>
 <p>You are currently not signed in <a href="login.php">login</a> Not yet a member? <a href="signup.php">signup</a> </p>
 <p>Public Gallery <a href="gallery.php">Click here</a></p>

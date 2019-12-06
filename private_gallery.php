@@ -170,6 +170,9 @@ else
     .dropdown:hover .dropdown-content{
         display: block;
     }
+    a {
+        text-decoration: none;   
+    }
     </style>
 </head>
 <body>
@@ -196,20 +199,49 @@ else
             <h2>Gallery<h2>
             <header>
             <?PHP
-            $sqlQuery = "SELECT * FROM gallery WHERE userid = :username ORDER BY `time` DESC";
+            $sqlQuery = "SELECT * FROM gallery WHERE userid = :username";
             $statement = $DB_NAME->prepare($sqlQuery);
-            $statement->execute(array(':username' => $_SESSION['id']));
+            $statement->execute(array(':username' => $_SESSION['username']));
+            $all = $statement->rowCount();
+            $total = 5;
+            $page = '';
+            if(!isset($_GET['page']))
+            {
+                $page = 1;
+            }
+            else
+            {
+                if (is_numeric($_GET['page']))
+                {
+                    $page = $_GET['page'];
+                }
+                else
+                {
+                    $page = 1;
+                }
+            }
+            $all_pages = ceil($all/$total);
+
+            $start = ($page-1) * $total;
             
-            while ($row = $statement->fetch()) 
+            $sqlpage = "SELECT * FROM gallery WHERE userid = :username ORDER BY id DESC LIMIT $start, $total";
+            $statement2 = $DB_NAME->prepare($sqlpage);
+            $statement2->execute(array(':username' => $_SESSION['username']));
+            while ($row = $statement2->fetch()) 
             {                               
                 echo '<div>
                     <a href="comments.php?img='.$row["id"].'">
-                    <img src="uploads/'.$row["id"].'.png">
+                    <img src="uploads/'.$row["descGallery"].'">
                     <a href=?delete='.$row["id"].'>Delete</a>
-                    <p>'.$row["descGallery"].'</p>
                     </a>
                     </div>';
             }
+            echo "<br>";
+            for ($i = 1; $i <= $all_pages; $i++)
+            {
+                echo "<a href='private_gallery.php?page=$i'> $i </a>";
+            }
+                       
             ?>
             </div>
             <?PHP        
@@ -225,10 +257,7 @@ else
             }
             
         ?>
-        <!-- <p>Not yet a member? <a href="signup.php">signup</a> </p>
-        <p><a href="login.php">Login</a></p>
-        <p><a href="index.php">Back</a></p> -->
-        </header>
+         </header>
         
     </section>
     

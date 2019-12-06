@@ -44,7 +44,7 @@
 		try{
 			$sqlquery = "INSERT INTO gallery (userid, descGallery) VALUES (:userid, :descG)";
 	        $query = $DB_NAME->prepare($sqlquery);
-	        $query->execute(array(':userid' => $_SESSION['username'], ':desG' => $imgName));
+	        $query->execute(array(':userid' => $_SESSION['username'], ':descG' => $imgName));
 
 	    } catch (PDOException $e){
 	        echo "An error occurred: ".$e->getMessage();

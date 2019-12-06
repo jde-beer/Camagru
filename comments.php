@@ -19,20 +19,24 @@ function setComment($DB_NAME)
             $statement = $DB_NAME->prepare($sqlQuery);
             $statement->execute(array(':uid' => $uid, ':imgid' => $img, ':d' => $date, ':comment' => $comment));
 
-            $sqlSelect = "SELECT * FROM gallery WHERE id=:descGallery";
+            $sqlSelect = "SELECT * FROM gallery WHERE id=:id";
             $statement2 = $DB_NAME->prepare($sqlSelect);
-            $statement2->execute(array(':descGallery' => $img));
+            $statement2->execute(array(':id' => $img));
             $row = $statement2->fetch();
-            $rowUserId = $row['descGallery'];
+            $rowUserId = $row['userid'];
 
-            $sqlQuery2 = "SELECT * FROM users WHERE username=:username";
+            $sqlQuery2 = "SELECT * FROM users WHERE username=:userid";
             $statement3 = $DB_NAME->prepare($sqlQuery2);
-            $statement3->execute(array(':username' => $rowUserId));
+            $statement3->execute(array(':userid' => $rowUserId));
             $Row = $statement3->fetch();
             $RowUserName = $Row['username'];
             $RowEmail = $Row['email'];
+            $RowPref = $Row['preference'];
 
-            sendCommentEmail($RowEmail, $RowUserName, $uid, $comment);
+            if ($Row['preference'] == 'ON')
+            {
+                sendCommentEmail($RowEmail, $RowUserName, $uid, $comment);
+            }
         } catch (PDOException $err) {
             echo "An errorr occurred: ".$err->getMessage();
         }
@@ -239,7 +243,7 @@ try{
     
     if(isset($Row['id']))
     {
-        echo '<img src="uploads/'.$img.'.png">';
+        echo '<img src="uploads/'.$Row['descGallery'].'">';
     }
     else
     {

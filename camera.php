@@ -2,6 +2,11 @@
 include_once 'config/session.php';
 include_once 'config/connect.php';
 include_once 'config/utilities.php';
+
+if (!isset($_SESSION['username']))
+{
+    redirectTo("login");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -135,6 +140,11 @@ include_once 'config/utilities.php';
     .dropdown:hover .dropdown-content{
         display: block;
     }
+    .small{
+        flex:auto;
+        display:inline-block;
+        margin-right: 5px;
+    }
     </style>
 </head>
 <body>
@@ -180,13 +190,12 @@ include_once 'config/utilities.php';
 </div>
 <?php
     $query1 = "SELECT * FROM gallery WHERE userid = :userid ORDER BY id DESC LIMIT 5";
-    $query = $db->prepare($query1);
+    $query = $DB_NAME->prepare($query1);
     $query->execute(array(':userid' => $_SESSION['username']));
     while($row = $query->fetch()){
         if(preg_match('/cameraEdit/', $row['descGallery'])){
-            echo    "<div>
-                        <a href='comment.php?img=".$row['descGallery']."'>
-                            <img src='uploads/".$row['descGallery']."'>
+            echo    "<div class='small'>
+                         <img width='75' height='75' src='uploads/".$row['descGallery']."' >
                         </a>
                     </div>";
         }

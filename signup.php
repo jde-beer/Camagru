@@ -73,7 +73,7 @@ if(isset($_POST['Signup']))
 
         else
         {  
-            $result = flashMessage("There were " .count($form_errors). "error s in the form<br>");
+            $result = flashMessage("There were " .count($form_errors). " errors in the form<br>");
     
         }
     }

@@ -55,7 +55,7 @@ if(isset($_POST['submit']))
                         $rowCount = $sql->rowCount();
                         $setImageOrder = $rowCount + 1;
 
-                        $sqlQuery = "INSERT INTO gallery (userid, titleGallery, descGallery, imgFullNameGallery, orderGallery) values (:userid, :filename, :filetitle, :filedesc, :orderGallery)";
+                        $sqlQuery = "INSERT INTO gallery (userid, descGallery, ) values (:userid, :filename,  :filedesc)";
                         $statement = $DB_NAME->prepare($sqlQuery);
                         $statement->execute(array(':userid' => $_SESSION['username'], ':filename' => $imagefullname, ':filetitle' => $filetitle, ':filedesc' =>  $filedesc, ':orderGallery' => $setImageOrder));
                         echo "file was uploaded.";
@@ -161,6 +161,9 @@ if(isset($_POST['submit']))
     .dropdown:hover .dropdown-content{
         display: block;
     }
+    a {
+        text-decoration: none;   
+    }
     </style>
 </head>
 <body>
@@ -187,18 +190,46 @@ if(isset($_POST['submit']))
             <h2>Gallery<h2>
             <header>
             <?PHP
-            $sqlQuery = "SELECT * FROM gallery ORDER BY id DESC";
+            $sqlQuery = "SELECT * FROM gallery";
             $statement = $DB_NAME->prepare($sqlQuery);
             $statement->execute(array());
+            $all = $statement->rowCount();
+            $total = 5;
+            $page = '';
+            if(!isset($_GET['page']))
+            {
+                $page = 1;
+            }
+            else
+            {
+                if (is_numeric($_GET['page']))
+                {
+                    $page = $_GET['page'];
+                }
+                else
+                {
+                    $page = 1;
+                }
+            }
+            $all_pages = ceil($all/$total);
+
+            $start = ($page-1) * $total;
             
-            while ($row = $statement->fetch()) 
+            $sqlpage = "SELECT * FROM gallery ORDER BY id DESC LIMIT $start, $total";
+            $statement2 = $DB_NAME->prepare($sqlpage);
+            $statement2->execute();
+            while ($row = $statement2->fetch()) 
             {                               
                 echo '<div>
                     <a href="comments.php?img='.$row["id"].'">
-                    <img src="uploads/'.$row["id"].'.png">
-                    <p>'.$row["descGallery"].'</p>
+                    <img src="uploads/'.$row["descGallery"].'">
                     </a>
                     </div>';
+            }
+            echo "<br>";
+            for ($i = 1; $i <= $all_pages; $i++)
+            {
+                echo "<a href='gallery.php?page=$i'> $i </a>";
             }
             ?>
             </div>

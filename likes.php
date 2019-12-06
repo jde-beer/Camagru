@@ -12,13 +12,6 @@ if (htmlentities($_GET['img'])) {
     $row = $statement->fetch();
     $imageOwner = $row['userid'];
 
-    $query = "SELECT * FROM users WHERE username=:userid";
-    $statement2 = $DB_NAME->prepare($query);
-    $statement2->execute(array(':userid' => $row['userid']));
-    $Row = $statement2->fetch();
-    $RowEmail = $Row['email'];
-
-
     if ($statement->rowCount() > 0) {
 
         try {

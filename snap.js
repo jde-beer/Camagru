@@ -1,41 +1,3 @@
-
-// window.onload = function() {
-// 	var canvas = document.getElementById('canvas'),
-// 		context = canvas.getContext('2d'),
-// 		video = document.getElementById('video'),
-// 		// vendorUrl = window.URL || window.webkitURL,
-// 		captureButton = document.getElementById('capture');
-// 	    captureButton.addEventListener("click", Snap);
-
-// 	navigator.getMedia = 	navigator.getUserMedia ||
-// 							navigator.webkitGetUserMedia ||
-// 							navigator.mozGetUserMedia ||
-// 							navigator.msGetUserMedia ||
-// 							navigator.oGetUserMedia;
-// 	if (navigator.getUserMedia) {
-// 			navigator.getUserMedia({video: true, audio: false}, 
-//             	handleVideo, videoError);
-//         }
-//         // navigator.getUserMedia{
-
-//         //     video = true;
-//         //     aduio = false;
-// 		// }
-// 		function handleVideo(stream) {
-// 			video.srcObject = stream;
-// 		}
-// 		function videoError(error) {
-// 			// An error occured
-// 			// error.code
-//         }		
-// 	function Snap() {
-// 		alert("sdfsdgsdgsd");
-// 		context.drawImage(video, 0, 0, canvas.width, canvas.height);
-// 	}
-
-// };
-
-	
 (function() {
 
 	const video = document.getElementById('video');
@@ -119,8 +81,9 @@
 			var sURL = over.toDataURL();
 			//var url = "camtodb.php";
 			var xhttp = new XMLHttpRequest();
-			let stuff = "imgUrl="+imgUrl+"&sURL="+sURL;
-			xhttp.open("POST", "camtodb.php");
+			let stuff = "imgUrl="+encodeURIComponent(imgUrl)+"&sURL="+encodeURIComponent(sURL);
+			console.log(stuff);
+			xhttp.open("POST", "camtodb.php", true);
 			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			xhttp.onreadystatechange = function(){
 				if (xhttp.status == 200){
